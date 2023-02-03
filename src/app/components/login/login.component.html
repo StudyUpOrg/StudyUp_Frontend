@@ -1,0 +1,17 @@
+<div class="vertical">
+    <mat-card-title>Login</mat-card-title>
+    <mat-form-field color="accent">
+        <mat-label>Nutzername</mat-label>
+        <input matInput required/>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label>Passwort</mat-label>
+        <input type="password" matInput required/>
+    </mat-form-field>
+    <div class="horizontal">
+        <button mat-raised-button color="accent" (click)="onCancel()">Abbrechen</button>
+        <button class="pos-right" mat-raised-button color="primary" [mat-dialog-close]="">Login</button>
+    </div>
+</div>
+
+

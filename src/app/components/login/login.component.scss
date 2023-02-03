@@ -1,0 +1,15 @@
+.vertical {
+    display: grid;
+}
+
+.horizontal {
+    display: inline-flex;
+}
+
+.pos-right {
+    margin: 0 0 0 16px;
+}
+
+mat-card-title {
+    margin-bottom: 16px;
+}
