@@ -6,7 +6,7 @@ import { StudiengangOverviewComponent } from './components/studiengang-overview/
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/studiengänge',
     pathMatch: 'full',
   },
   {
