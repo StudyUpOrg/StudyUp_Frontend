@@ -1,15 +1,7 @@
-.vertical {
-    display: grid;
-}
-
-.horizontal {
-    display: inline-flex;
+mat-card-title {
+    margin-bottom: 16px;
 }
 
 .pos-right {
-    margin: 0 0 0 16px;
-}
-
-mat-card-title {
-    margin-bottom: 16px;
+    margin: 0 0 0 auto;
 }
