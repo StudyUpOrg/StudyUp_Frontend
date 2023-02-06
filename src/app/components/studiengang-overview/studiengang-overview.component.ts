@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./studiengang-overview.component.scss'],
 })
 export class StudiengangOverviewComponent {
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = true;
   public displayedColumns: string[];
   public dataSource = [
     {
@@ -20,9 +20,9 @@ export class StudiengangOverviewComponent {
 
   constructor() {
     if (this.loggedIn) {
-      this.displayedColumns = ['title', 'degree', 'startDate', 'active', 'id'];
+      this.displayedColumns = ['title', 'degree', 'startDate', 'active', 'link'];
     } else {
-      this.displayedColumns = ['title', 'degree', 'startDate', 'id'];
+      this.displayedColumns = ['title', 'degree', 'startDate', 'link'];
     }
   }
 }
