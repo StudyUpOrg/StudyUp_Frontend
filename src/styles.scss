@@ -4,6 +4,34 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .content-card {
-    margin: 16px;
-    width: fit-content;
+    margin: 16px auto 16px auto;
+    width: 50%;
+}
+
+.status-active {
+    padding: 2px 4px 2px 4px;
+    background-color: green;
+    border-radius: 4px;
+}
+
+.status-inactive {
+    padding: 2px 4px 2px 4px;
+    background-color: red;
+    border-radius: 4px;
+}
+
+.vertical-align {
+    display: grid;
+}
+
+.horizontal-align {
+    display: inline-flex;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.pos-right {
+    margin: 0 0 0 auto;
 }
