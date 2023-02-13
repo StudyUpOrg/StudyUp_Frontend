@@ -6,7 +6,7 @@
     <a mat-button>Evaluationsbögen</a>
   </div>
   <a class="fill-remaining-space"></a>
-  <a *ngIf="loggedIn" mat-button>Konto</a>
+  <a *ngIf="loggedIn" mat-button routerLink="/konto">Konto</a>
   <a *ngIf="!loggedIn" mat-button (click)="openLoginDialog()">Login</a>
 </mat-toolbar>
 <router-outlet></router-outlet>
