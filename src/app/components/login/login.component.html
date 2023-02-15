@@ -1,5 +1,10 @@
 <div class="vertical-align">
-    <mat-card-title>Login</mat-card-title>
+    <div class="horizontal-align">
+        <mat-card-title>Login</mat-card-title>
+        <a class="pos-right" (click)="onCancel()">
+            <mat-icon color="accent">close</mat-icon>
+        </a>
+    </div>
     <mat-form-field color="accent">
         <mat-label>Nutzername</mat-label>
         <input matInput required/>
@@ -8,10 +13,7 @@
         <mat-label>Passwort</mat-label>
         <input type="password" matInput required/>
     </mat-form-field>
-    <div class="horizontal-align">
-        <button mat-raised-button color="accent" (click)="onCancel()">Abbrechen</button>
-        <button mat-raised-button class="pos-right" color="primary" [mat-dialog-close]="">Login</button>
-    </div>
+    <button mat-raised-button color="primary" [mat-dialog-close]="">Login</button>
 </div>
 
 

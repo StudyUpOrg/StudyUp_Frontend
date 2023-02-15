@@ -15,9 +15,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, LoginComponent, StudiengangOverviewComponent],
+  declarations: [AppComponent, NavbarComponent, LoginComponent, StudiengangOverviewComponent, AccountComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
