@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AccountComponent } from '../account/account.component';
 
 import { LoginComponent } from '../login/login.component';
 @Component({
@@ -8,7 +9,7 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = true;
 
   constructor(public dialog: MatDialog) { }
 
@@ -16,10 +17,12 @@ export class NavbarComponent implements OnInit {
   }
 
   public openLoginDialog(): void {
-    console.log("popup");
     let dialogRef = this.dialog.open(LoginComponent);
-
     dialogRef.afterClosed().subscribe();
   }
 
+  public openAccountDialog(): void {
+    let dialogRef = this.dialog.open(AccountComponent);
+    dialogRef.afterClosed().subscribe();
+  }
 }
