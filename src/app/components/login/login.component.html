@@ -1,19 +1,19 @@
 <div class="vertical-align">
-    <div class="horizontal-align">
-        <mat-card-title>Login</mat-card-title>
-        <a class="pos-right" (click)="onCancel()">
-            <mat-icon color="accent">close</mat-icon>
-        </a>
-    </div>
+  <div class="horizontal-align">
+    <mat-card-title>Login</mat-card-title>
+    <a class="pos-right" mat-dialog-close>
+      <mat-icon color="accent">close</mat-icon>
+    </a>
+  </div>
+  <form [formGroup]="loginForm" class="vertical-align">
     <mat-form-field color="accent">
-        <mat-label>Nutzername</mat-label>
-        <input matInput required/>
+      <mat-label>Nutzername</mat-label>
+      <input matInput required formControlName="username"/>
     </mat-form-field>
     <mat-form-field color="accent">
-        <mat-label>Passwort</mat-label>
-        <input type="password" matInput required/>
+      <mat-label>Passwort</mat-label>
+      <input type="password" matInput required formControlName="password"/>
     </mat-form-field>
-    <button mat-raised-button color="primary" [mat-dialog-close]="">Login</button>
+  </form>
+  <button mat-raised-button color="primary" (click)="login()">Login</button>
 </div>
-
-
