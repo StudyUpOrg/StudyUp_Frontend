@@ -47,7 +47,7 @@ export class AuthService {
         },
         (error) => {
           this.snackBar.open(
-            'Der Logoutvorgang war nicht erfolgreich.',
+            'Der Loginvorgang war nicht erfolgreich.',
             undefined,
             {
               duration: 5000,
