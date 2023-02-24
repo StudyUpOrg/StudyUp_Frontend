@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -19,6 +20,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { AccountComponent } from './components/account/account.component';
+import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AccountComponent } from './components/account/account.component';
     LoginComponent,
     StudiengangOverviewComponent,
     AccountComponent,
+    BewerbungDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { AccountComponent } from './components/account/account.component';
     MatTableModule,
     MatIconModule,
     MatSnackBarModule,
+    MatListModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
