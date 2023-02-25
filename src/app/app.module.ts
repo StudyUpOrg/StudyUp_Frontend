@@ -19,6 +19,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { AccountComponent } from './components/account/account.component';
+import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AccountComponent } from './components/account/account.component';
     LoginComponent,
     StudiengangOverviewComponent,
     AccountComponent,
+    BewerbungStatusComponent,
   ],
   imports: [
     BrowserModule,
