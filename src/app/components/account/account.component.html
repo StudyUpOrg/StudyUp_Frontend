@@ -1,0 +1,20 @@
+<mat-card class="content-card">
+    <div class="vertical-align">
+        <mat-card-title>Kontoverwaltung</mat-card-title>
+    <mat-form-field color="accent">
+        <mat-label>Nutzername</mat-label>
+        <input matInput/>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label>Passwort</mat-label>
+        <input type="password" matInput/>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label>Passwort bestätigen</mat-label>
+        <input type="password" matInput/>
+    </mat-form-field>
+    <button class="button-space" mat-raised-button color="accent">Bild hochladen</button>
+    <button class="button-space" mat-raised-button color="accent">Änderungen speichern</button>
+    <button mat-raised-button color="primary" routerLink="" (click)="logout()">Abmelden</button>
+</div>
+</mat-card>
