@@ -23,8 +23,8 @@
             <ng-container *ngIf="loggedIn" matColumnDef="active">
                 <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <span *ngIf="element.active" class="status-active">aktiv</span>
-                    <span *ngIf="!element.active" class="status-inactive">inaktiv</span>
+                    <span *ngIf="element.course_activated" class="status-active">aktiv</span>
+                    <span *ngIf="!element.course_activated" class="status-inactive">inaktiv</span>
                 </mat-cell>
             </ng-container>
 

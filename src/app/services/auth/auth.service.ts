@@ -1,17 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
-  private loggedIn: Subject<boolean> = new Subject<boolean>();
+  private loggedIn: ReplaySubject<boolean> = new ReplaySubject<boolean>();
   public $loggedIn: Observable<boolean> = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+    this.loggedIn.next(localStorage.getItem('authToken') != null);
+  }
 
   public login(username: string, password: string): void {
     this.http
