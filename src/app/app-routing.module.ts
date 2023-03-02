@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
 import { LoginComponent } from './components/login/login.component';
+import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/studiengang/1/bewerben',
+    redirectTo: '/studiengang/übersicht',
     pathMatch: 'full',
   },
   {
@@ -26,7 +27,11 @@ const routes: Routes = [
   {
     path: 'studiengang/:id/bewerben',
     component: BewerbungDetailComponent
-  }
+  },
+  {
+    path: 'studiengang/:id',
+    component: StudiengangDetailComponent,
+  },
 ];
 
 @NgModule({

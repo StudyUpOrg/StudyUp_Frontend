@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
@@ -15,14 +15,10 @@ export class AuthService {
 
   public login(username: string, password: string): void {
     this.http
-      .post<any>(
-        this.BACKEND_URL +
-          '/employee/login?username=' +
-          username +
-          '&password=' +
-          password,
-        {}
-      )
+      .post<any>(this.BACKEND_URL + '/employee/login', {
+        username: username,
+        password: password,
+      })
       .subscribe(
         (response) => {
           if (response.loggedIn == true) {
@@ -47,7 +43,7 @@ export class AuthService {
         },
         (error) => {
           this.snackBar.open(
-            'Der Logoutvorgang war nicht erfolgreich.',
+            'Der Loginvorgang war nicht erfolgreich.',
             undefined,
             {
               duration: 5000,
@@ -58,36 +54,19 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.http
-      .post<any>(
-        this.BACKEND_URL +
-          '/employee/logout?token=' +
-          localStorage.getItem('authToken'),
-        {}
-      )
-      .subscribe(
-        (response) => {
-          if (response.loged_out == true) {
-            localStorage.removeItem('authToken');
-            this.loggedIn.next(false);
-            this.snackBar.open(
-              'Du wurdest erfolgreich ausgeloggt.',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
-          } else {
-            this.snackBar.open(
-              'Der Logoutvorgang war nicht erfolgreich.',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
-          }
-        },
-        (error) => {
+    this.http.post<any>(this.BACKEND_URL + '/employee/logout', {}, {
+      headers: new HttpHeaders({
+        'token': localStorage.getItem('authToken') || '',
+      })
+    }).subscribe(
+      (response) => {
+        if (response.loggedOut == true) {
+          localStorage.removeItem('authToken');
+          this.loggedIn.next(false);
+          this.snackBar.open('Du wurdest erfolgreich ausgeloggt.', undefined, {
+            duration: 5000,
+          });
+        } else {
           this.snackBar.open(
             'Der Logoutvorgang war nicht erfolgreich.',
             undefined,
@@ -96,6 +75,16 @@ export class AuthService {
             }
           );
         }
-      );
+      },
+      (error) => {
+        this.snackBar.open(
+          'Der Logoutvorgang war nicht erfolgreich.',
+          undefined,
+          {
+            duration: 5000,
+          }
+        );
+      }
+    );
   }
 }
