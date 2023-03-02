@@ -12,7 +12,7 @@ export class AuthService {
   public $loggedIn: Observable<boolean> = this.loggedIn.asObservable();
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.loggedIn.next(localStorage.getItem('authToken') != null);
+    this.loggedIn.next(false);
   }
 
   public login(username: string, password: string): void {
