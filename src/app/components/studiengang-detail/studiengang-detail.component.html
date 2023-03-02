@@ -1,0 +1,34 @@
+<mat-card class="content-card">
+  <div class="vertical-align">
+    <mat-card-title>{{ studiengang.title }}</mat-card-title>
+    <mat-form-field color="accent">
+      <mat-label>Abschlussart</mat-label>
+      <input matInput value="{{ studiengang.degree }}" />
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>Startdatum</mat-label>
+      <input matInput [matDatepicker]="picker" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field color="accent" class="max-height">
+      <mat-label>Beschreibung</mat-label>
+      <textarea matInput>
+Suspendisse consequat adipiscing risus nostra massa tortor sollicitudin nascetur a sed porttitor. Ut tempus nunc auctor orci ridiculus Platea. In congue. Condimentum porta vitae elementum eros cum tristique laoreet nunc consectetuer urna. Risus mollis suspendisse. Mollis odio turpis. Dui. Scelerisque dis aptent. Senectus felis cum accumsan auctor luctus viverra eleifend, ornare netus fermentum pulvinar duis cum dis molestie habitant pulvinar, mi sed curabitur, habitasse litora dolor turpis fringilla tempor consectetuer donec tempus class id. Molestie accumsan. Risus pulvinar posuere. Suspendisse
+      Mus. Faucibus purus pretium condimentum. Eleifend quisque dictumst iaculis at litora ipsum. Orci viverra adipiscing sed. Eleifend. Litora lorem, arcu a. Curabitur. Potenti egestas platea eros turpis parturient duis purus auctor Inceptos vehicula. Diam. Sit nibh eget ullamcorper posuere ipsum scelerisque felis ipsum interdum amet commodo accumsan varius. Ultrices pede bibendum penatibus libero inceptos. Mollis ultrices rhoncus id venenatis, sociosqu hac venenatis quisque duis consequat nunc nam nonummy vestibulum libero arcu torquent. Dui class posuere mauris nascetur magna justo fringilla ac vel malesuada fames nisl. Adipiscing semper curabitur.
+      Volutpat pede dui bibendum. Sociosqu. A litora mollis vulputate penatibus gravida pretium maecenas fermentum lorem sociosqu integer aptent ac. Sodales iaculis eu sagittis pharetra elit, nibh velit blandit gravida maecenas dis mauris.
+      </textarea>
+    </mat-form-field>
+    <mat-form-field color="accent" floatLabel="always" *ngIf="loggedIn">
+      <mat-label>Status</mat-label>
+      <mat-slide-toggle>aktiv</mat-slide-toggle>
+      <input matInput hidden />
+    </mat-form-field>
+    <button *ngIf="loggedIn" mat-raised-button color="primary">
+      Änderungen speichern
+    </button>
+    <button *ngIf="!loggedIn" mat-raised-button color="primary">
+      Jetzt bewerben
+    </button>
+  </div>
+</mat-card>
