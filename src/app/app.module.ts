@@ -42,6 +42,7 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -56,8 +57,7 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
     MatNativeDateModule,
     MatSlideToggleModule,
     FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

@@ -12,12 +12,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 2px 4px 2px 4px;
     background-color: green;
     border-radius: 4px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .status-inactive {
     padding: 2px 4px 2px 4px;
     background-color: red;
     border-radius: 4px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .vertical-align {
