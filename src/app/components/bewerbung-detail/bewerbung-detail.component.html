@@ -1,0 +1,37 @@
+<mat-card class="content-card">
+  <div class="vertical-align">
+    <mat-card-title>Bewerbung für Studiengang 1</mat-card-title>
+    <mat-form-field color="accent">
+      <mat-label>Vorname</mat-label>
+      <input matInput required />
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>Nachname</mat-label>
+      <input matInput required />
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>E-Mail</mat-label>
+      <input matInput required />
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>Telefonnummer</mat-label>
+      <input matInput required />
+    </mat-form-field>
+
+    <input type="file" class="file-input" #fileUpload />
+    <div class="file-upload">
+      <button
+        mat-mini-fab
+        color="accent"
+        class="upload-btn"
+        (click)="fileUpload.click()"
+      >
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      {{ "Aktuell sind noch keine Dateien hochgeladen." }}
+    </div>
+    <button mat-raised-button color="primary" class="submit-btn">
+      Bewerbung abschicken
+    </button>
+  </div>
+</mat-card>
