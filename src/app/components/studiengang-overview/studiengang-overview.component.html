@@ -1,7 +1,7 @@
 <mat-card class="content-card">
     <div class="horizontal-align">
         <mat-card-title>Übersicht der Studiengänge</mat-card-title>
-        <button *ngIf="loggedIn" mat-raised-button class="pos-right" color="accent" routerLink="/studiengang/new">Studiengang hinzufügen</button>
+        <button *ngIf="loggedIn" mat-raised-button class="pos-right" color="accent" routerLink="/studiengang/detail/neu">Studiengang hinzufügen</button>
     </div>
     <mat-card-content>
         <mat-table #table [dataSource]="studiengaenge">
@@ -31,7 +31,7 @@
             <ng-container *ngIf="loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Bearbeiten</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/{{element.course_id}}">
+                    <a routerLink="/studiengang/detail/{{element.course_id}}">
                         <mat-icon color="accent">edit</mat-icon>
                     </a>
                 </mat-cell>
@@ -40,7 +40,7 @@
             <ng-container *ngIf="!loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/{{element.course_id}}">
+                    <a routerLink="/studiengang/detail/{{element.course_id}}">
                         <mat-icon color="accent">open_in_new</mat-icon>
                     </a>
                 </mat-cell>

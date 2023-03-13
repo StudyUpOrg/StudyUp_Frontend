@@ -25,11 +25,11 @@ const routes: Routes = [
     component: StudiengangOverviewComponent,
   },
   {
-    path: 'studiengang/:id/bewerben',
+    path: 'studiengang/detail/:id/bewerben',
     component: BewerbungDetailComponent
   },
   {
-    path: 'studiengang/:id',
+    path: 'studiengang/detail/:id',
     component: StudiengangDetailComponent,
   },
 ];
