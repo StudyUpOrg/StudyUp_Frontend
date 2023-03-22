@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
+import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
@@ -9,7 +10,7 @@ import { StudiengangOverviewComponent } from './components/studiengang-overview/
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/studiengang/übersicht',
+    redirectTo: '/bewerbung/übersicht',
     pathMatch: 'full',
   },
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: 'studiengang/detail/:id',
     component: StudiengangDetailComponent,
   },
+  {
+    path: 'bewerbung/übersicht',
+    component: BewerbungOverviewComponent
+  }
 ];
 
 @NgModule({
