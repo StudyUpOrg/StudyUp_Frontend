@@ -24,6 +24,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { AccountComponent } from './components/account/account.component';
+import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
 
 @NgModule({
@@ -33,8 +34,9 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
     LoginComponent,
     StudiengangOverviewComponent,
     AccountComponent,
+    BewerbungStatusComponent,
     BewerbungDetailComponent,
-    StudiengangDetailComponent,
+    StudiengangDetailComponent
   ],
   imports: [
     BrowserModule,
