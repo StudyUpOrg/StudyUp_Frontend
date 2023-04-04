@@ -1,4 +1,4 @@
-<mat-card class="content-card">
+<mat-card class="content-card" *ngIf="studiengang">
   <mat-card-title *ngIf="!loggedIn">{{
     studiengang.course_name
   }}</mat-card-title>
@@ -51,7 +51,7 @@
   >
     Studiengang hinzufügen
   </button>
-  <button *ngIf="!loggedIn" mat-raised-button color="primary">
+  <button *ngIf="!loggedIn" mat-raised-button color="primary" routerLink="/studiengang/detail/{{studiengang.course_id}}/bewerben">
     Jetzt bewerben
   </button>
 </mat-card>

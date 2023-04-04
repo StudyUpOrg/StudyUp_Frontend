@@ -14,12 +14,12 @@ export class BewerbungService {
     private notificationService: NotificationService
   ) {}
 
-  private createBewerbung(): Observable<number> {
+  private createBewerbung(): Observable<any> {
     return this.http.post<number>(this.BACKEND_URL + '/visitor/apply', {});
   }
 
-  private addInformationToBewerbung(bewerbung: any): Observable<any> {
-    return this.http.put<any>(this.BACKEND_URL + '/visitor/application/management/' + bewerbung.id, bewerbung);
+  private addInformationToBewerbung(bewerbungId: number, bewerbung: any): Observable<any> {
+    return this.http.put<any>(this.BACKEND_URL + '/visitor/application/managemant/' + bewerbungId, bewerbung);
   }
 
   private addFilesToBewerbung(bewerbungId: number, files: any): Observable<any> 
@@ -27,10 +27,11 @@ export class BewerbungService {
     return this.http.post<any>(this.BACKEND_URL + '/visitor/application/documents/' + bewerbungId, files);
   }
 
-  public sendBewerbung(bewerbung: any): void {
-    this.createBewerbung().subscribe(bewerbungId => {
-      this.addInformationToBewerbung(bewerbung).subscribe(() => {
-        this.addFilesToBewerbung(bewerbungId, bewerbung.files).subscribe(() => {
+  public sendBewerbung(bewerbung: any, bewerbungFiles: FormData): void {
+    this.createBewerbung().subscribe(response => {
+      const bewerbungId = response.applicationId;
+      this.addInformationToBewerbung(bewerbungId, bewerbung).subscribe(() => {
+        this.addFilesToBewerbung(bewerbungId, bewerbungFiles).subscribe(() => {
           this.http.put<any>(this.BACKEND_URL + '/visitor/application/send/' + bewerbungId, {}).subscribe();
         })
       })
