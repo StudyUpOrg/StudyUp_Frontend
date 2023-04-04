@@ -1,37 +1,37 @@
 <mat-card class="content-card">
     <div class="horizontal-align">
         <mat-card-title>Übersicht der Studiengänge</mat-card-title>
-        <button *ngIf="loggedIn" mat-raised-button class="pos-right" color="accent" routerLink="/studiengang/new">Studiengang hinzufügen</button>
+        <button *ngIf="loggedIn" mat-raised-button class="pos-right" color="accent" routerLink="/studiengang/detail/neu">Studiengang hinzufügen</button>
     </div>
     <mat-card-content>
-        <mat-table #table [dataSource]="dataSource">
+        <mat-table #table [dataSource]="studiengaenge">
             <ng-container matColumnDef="title">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.course_name}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="degree">
                 <mat-header-cell *matHeaderCellDef>Abschlussart</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.degree}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.degree_name}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="startDate">
                 <mat-header-cell *matHeaderCellDef>Startdatum</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.startDate | date: 'dd.MM.yyyy'}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.course_start_date | date: 'dd.MM.yyyy'}}</mat-cell>
             </ng-container>
 
             <ng-container *ngIf="loggedIn" matColumnDef="active">
                 <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <span *ngIf="element.active" class="status-active">aktiv</span>
-                    <span *ngIf="!element.active" class="status-inactive">inaktiv</span>
+                    <span *ngIf="element.course_activated" class="status-active">aktiv</span>
+                    <span *ngIf="!element.course_activated" class="status-inactive">inaktiv</span>
                 </mat-cell>
             </ng-container>
 
             <ng-container *ngIf="loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Bearbeiten</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/{{element.id}}">
+                    <a routerLink="/studiengang/detail/{{element.course_id}}">
                         <mat-icon color="accent">edit</mat-icon>
                     </a>
                 </mat-cell>
@@ -40,7 +40,7 @@
             <ng-container *ngIf="!loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/{{element.id}}">
+                    <a routerLink="/studiengang/detail/{{element.course_id}}">
                         <mat-icon color="accent">open_in_new</mat-icon>
                     </a>
                 </mat-cell>

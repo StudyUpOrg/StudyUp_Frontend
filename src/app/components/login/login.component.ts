@@ -10,15 +10,17 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  public loginForm: FormGroup;
+  public loginForm!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private authService: AuthService
-  ) {
-    this.loginForm = formBuilder.group({
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
@@ -27,7 +29,7 @@ export class LoginComponent {
   public login(): void {
     const formValues = this.loginForm.value;
 
-    if(formValues.username && formValues.password) {
+    if (formValues.username && formValues.password) {
       this.authService.login(formValues.username, formValues.password);
       this.dialogRef.close();
     }
