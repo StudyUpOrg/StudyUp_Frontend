@@ -5,11 +5,10 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
-        "build:prod": "ng build --configuration production --base-href https://studyup.selfframe.xyz",
+        "build:prod": "ng build --base-href https://studyup.selfframe.xyz",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
-        "test:headless": "ng",
-        "lint": "ng test --watch=false --browsers=ChromeHeadless"
+        "lint": "ng lint"
     },
     "private": true,
     "dependencies": {
