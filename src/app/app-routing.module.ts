@@ -6,6 +6,7 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
+import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 
 const routes: Routes = [
   {
@@ -27,14 +28,19 @@ const routes: Routes = [
   },
   {
     path: 'bewerbung/:id/status',
-    component: BewerbungStatusComponent
-  }
+    component: BewerbungStatusComponent,
+  },
+  {
     path: 'studiengang/detail/:id/bewerben',
-    component: BewerbungDetailComponent
+    component: BewerbungDetailComponent,
   },
   {
     path: 'studiengang/detail/:id',
     component: StudiengangDetailComponent,
+  },
+  {
+    path: 'evaluationsbogen',
+    component: EvaluationSheetCreationComponent,
   },
 ];
 
