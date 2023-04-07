@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class StudiengangService {
   private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private notificationService: NotificationService) {}
 
   public getAllStudiengaengeVisitor() {
     return this.http.get(this.BACKEND_URL + '/visitor/courses');
@@ -59,31 +59,13 @@ export class StudiengangService {
       .subscribe(
         (response) => {
           if (response.courseUpdated == true) {
-            this.snackBar.open(
-              'Der Studiengang wurde erfolgreich aktualisiert.',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
+            this.notificationService.displayNotification('Der Studiengang wurde erfolgreich aktualisiert.');
           } else {
-            this.snackBar.open(
-              'Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
+            this.notificationService.displayNotification('Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.');
           }
         },
         (error) => {
-          this.snackBar.open(
-            'Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.',
-            undefined,
-            {
-              duration: 5000,
-            }
-          );
+          this.notificationService.displayNotification('Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.');
         }
       );
   }
@@ -108,31 +90,13 @@ export class StudiengangService {
       .subscribe(
         (response) => {
           if (response.newCourseInserted == true) {
-            this.snackBar.open(
-              'Der Studiengang wurde erfolgreich hinzugefügt',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
+            this.notificationService.displayNotification('Der Studiengang wurde erfolgreich hinzugefügt');
           } else {
-            this.snackBar.open(
-              'Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.',
-              undefined,
-              {
-                duration: 5000,
-              }
-            );
+            this.notificationService.displayNotification('Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.');
           }
         },
         (error) => {
-          this.snackBar.open(
-            'Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.',
-            undefined,
-            {
-              duration: 5000,
-            }
-          );
+          this.notificationService.displayNotification('Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.');
         }
       );
   }
