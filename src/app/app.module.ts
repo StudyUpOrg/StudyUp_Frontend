@@ -10,10 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatListModule } from '@angular/material/list'; 
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,7 @@ import { StudiengangOverviewComponent } from './components/studiengang-overview/
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
+import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
     AccountComponent,
     BewerbungStatusComponent,
     BewerbungDetailComponent,
-    StudiengangDetailComponent
+    StudiengangDetailComponent,
+    EvaluationSheetCreationComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,8 +59,9 @@ import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbun
     MatDatepickerModule,
     MatNativeDateModule,
     MatSlideToggleModule,
+    MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {

@@ -1,0 +1,40 @@
+<mat-card class="content-card">
+  <mat-card-title>Evaluationsbogen erstellen</mat-card-title>
+  <div class="vertical-align">
+    <mat-form-field color="accent">
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="evaluationSheetNameForm" required />
+    </mat-form-field>
+    <div class="horizontal-align">
+      <mat-form-field color="accent">
+        <mat-label>Kriterium</mat-label>
+        <input matInput [formControl]="criteriaForm" />
+      </mat-form-field>
+      <button mat-raised-button color="accent" class="criteria-button">
+        Kriterium hinzufügen
+      </button>
+    </div>
+    <mat-list>
+      <mat-list-item *ngFor="let element of criterias">{{
+        element
+      }}</mat-list-item>
+    </mat-list>
+    <mat-form-field color="accent" class="studiengang-form">
+      <mat-select
+        placeholder="Studiengang"
+        [formControl]="studiengangForm"
+        multiple
+        required
+      >
+        <mat-option
+          *ngFor="let element of studiengangNames"
+          [value]="element"
+          >{{ element }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary">
+      Evaluationsbogen erstellen
+    </button>
+  </div>
+</mat-card>
