@@ -86,26 +86,5 @@ export class BewerbungDetailComponent implements OnInit {
                 });
             }
         });
-
-        /*
-        // this.createBewerbung().subscribe((response) => {
-        //     const bewerbungId = response.applicationId;
-        //     this.addInformationToBewerbung(bewerbungId, bewerbung).subscribe(() => {
-        //         bewerbungFiles.map((file) => {
-        //             const formDataFile = new FormData();
-        //             formDataFile.append('file', file, file.name);
-        //             if (file == bewerbungFiles[bewerbungFiles.length - 1]) {
-        //                 this.addFileToBewerbung(bewerbungId, formDataFile).subscribe(() => {
-        //                     this.http
-        //                         .put<any>(this.BACKEND_URL + '/visitor/application/send/' + bewerbungId, {})
-        //                         .subscribe();
-        //                 });
-        //             } else {
-        //                 this.addFileToBewerbung(bewerbungId, formDataFile).subscribe();
-        //             }
-        //         });
-        //     });
-        // });
-        */
     }
 }
