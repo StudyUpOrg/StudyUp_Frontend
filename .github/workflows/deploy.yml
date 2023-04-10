@@ -19,10 +19,10 @@ jobs:
                   node-version: '16'
 
             - name: Install and build
-              run: npm install && npm run build
+              run: npm install && npm run build:prod
 
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@4.1.1
               with:
                   branch: gh-pages
-                  folder: ../dist/studyup_frontend
+                  folder: dist/studyup_frontend
