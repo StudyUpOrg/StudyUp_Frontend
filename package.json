@@ -5,7 +5,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
-        "build:prod": "ng build --base-href=studyup-frontend",
+        "build:prod": "ng build --base-href=https://studyup.selfframe.xyz",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint"
