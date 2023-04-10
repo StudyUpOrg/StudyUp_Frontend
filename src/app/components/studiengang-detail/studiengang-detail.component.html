@@ -1,7 +1,13 @@
 <mat-card class="content-card" *ngIf="studiengang">
-    <mat-card-title *ngIf="!loggedIn">{{ studiengang.course_name }}</mat-card-title>
-    <mat-card-title *ngIf="loggedIn && isNewStudiengang">Studiengang hinzufügen</mat-card-title>
-    <mat-card-title *ngIf="loggedIn && !isNewStudiengang">Studiengang ändern</mat-card-title>
+    <mat-card-title *ngIf="!loggedIn">{{
+        studiengang.course_name
+    }}</mat-card-title>
+    <mat-card-title *ngIf="loggedIn && isNewStudiengang"
+        >Studiengang hinzufügen</mat-card-title
+    >
+    <mat-card-title *ngIf="loggedIn && !isNewStudiengang"
+        >Studiengang ändern</mat-card-title
+    >
     <form [formGroup]="formGroup" class="vertical-align">
         <mat-form-field *ngIf="loggedIn" color="accent">
             <mat-label>Titel</mat-label>
@@ -13,8 +19,13 @@
         </mat-form-field>
         <mat-form-field color="accent">
             <mat-label>Startdatum</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="startDate" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="startDate" />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field color="accent" class="max-height">
@@ -32,8 +43,7 @@
         mat-raised-button
         color="primary"
         [disabled]="!hasStudiengangChangedValidly"
-        (click)="updateStudiengang()"
-    >
+        (click)="updateStudiengang()">
         Änderungen speichern
     </button>
     <button
@@ -41,16 +51,14 @@
         mat-raised-button
         color="primary"
         [disabled]="!hasStudiengangChangedValidly"
-        (click)="createStudiengang()"
-    >
+        (click)="createStudiengang()">
         Studiengang hinzufügen
     </button>
     <button
         *ngIf="!loggedIn"
         mat-raised-button
         color="primary"
-        routerLink="/studiengang/detail/{{ studiengang.course_id }}/bewerben"
-    >
+        routerLink="/studiengang/detail/{{ studiengang.course_id }}/bewerben">
         Jetzt bewerben
     </button>
 </mat-card>

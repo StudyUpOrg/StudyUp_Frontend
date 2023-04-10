@@ -9,43 +9,43 @@ import { StudiengangOverviewComponent } from './components/studiengang-overview/
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'studiengang/übersicht',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'konto',
-    component: AccountComponent,
-  },
-  {
-    path: 'studiengang/übersicht',
-    component: StudiengangOverviewComponent,
-  },
-  {
-    path: 'bewerbung/:id/status',
-    component: BewerbungStatusComponent,
-  },
-  {
-    path: 'studiengang/detail/:id/bewerben',
-    component: BewerbungDetailComponent,
-  },
-  {
-    path: 'studiengang/detail/:id',
-    component: StudiengangDetailComponent,
-  },
-  {
-    path: 'evaluationsbogen',
-    component: EvaluationSheetCreationComponent,
-  },
+    {
+        path: '',
+        redirectTo: 'studiengang/übersicht',
+        pathMatch: 'full',
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+    },
+    {
+        path: 'konto',
+        component: AccountComponent,
+    },
+    {
+        path: 'studiengang/übersicht',
+        component: StudiengangOverviewComponent,
+    },
+    {
+        path: 'bewerbung/:id/status',
+        component: BewerbungStatusComponent,
+    },
+    {
+        path: 'studiengang/detail/:id/bewerben',
+        component: BewerbungDetailComponent,
+    },
+    {
+        path: 'studiengang/detail/:id',
+        component: StudiengangDetailComponent,
+    },
+    {
+        path: 'evaluationsbogen',
+        component: EvaluationSheetCreationComponent,
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

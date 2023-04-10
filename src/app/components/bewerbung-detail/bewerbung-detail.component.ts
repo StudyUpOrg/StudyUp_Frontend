@@ -28,33 +28,38 @@ export class BewerbungDetailComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.authService.$loggedIn.subscribe((loggedIn) => {
+        this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
         });
-        this.route.params.subscribe((params) => {
+        this.route.params.subscribe(params => {
             this.getStudiengangAndInitializeFormGroup(params['id']);
         });
     }
 
     private getStudiengangAndInitializeFormGroup(studiengangId: number): void {
-        this.studiengangService.getStudiengangByIdVisitor(studiengangId).subscribe((studiengang) => {
-            this.studiengang = studiengang;
-            this.formGroup = this.formBuilder.group({
-                applicantFirstName: ['', Validators.required],
-                applicantLastName: ['', Validators.required],
-                applicantMail: ['', Validators.required],
-                applicantTelNo: ['', Validators.required],
-                applicantLetter: ['', Validators.required],
+        this.studiengangService
+            .getStudiengangByIdVisitor(studiengangId)
+            .subscribe(studiengang => {
+                this.studiengang = studiengang;
+                this.formGroup = this.formBuilder.group({
+                    applicantFirstName: ['', Validators.required],
+                    applicantLastName: ['', Validators.required],
+                    applicantMail: ['', Validators.required],
+                    applicantTelNo: ['', Validators.required],
+                    applicantLetter: ['', Validators.required],
+                });
+                this.formGroup.valueChanges.subscribe(() => {
+                    this.hasBewerbungChangedValidly =
+                        this.formGroup.dirty && this.formGroup.valid;
+                });
             });
-            this.formGroup.valueChanges.subscribe(() => {
-                this.hasBewerbungChangedValidly = this.formGroup.dirty && this.formGroup.valid;
-            });
-        });
     }
 
     public onFilesSelected(event: any): void {
         this.uploadedFiles = Array.from(event.target.files);
-        this.uploadedFileNames = this.uploadedFiles.map((file) => file.name).join(', ');
+        this.uploadedFileNames = this.uploadedFiles
+            .map(file => file.name)
+            .join(', ');
     }
 
     public sendBewerbung(): void {
@@ -68,22 +73,41 @@ export class BewerbungDetailComponent implements OnInit {
             applicantLetter: formValues.applicantLetter,
         };
 
-        this.bewerbungService.createBewerbung().subscribe((response) => {
+        this.bewerbungService.createBewerbung().subscribe(response => {
             if (response.applicationId) {
                 const bewerbungId = response.applicationId;
-                this.bewerbungService.addInformationToBewerbung(bewerbungId, bewerbung).subscribe(() => {
-                    this.uploadedFiles.map((file) => {
-                        const formDataFile = new FormData();
-                        formDataFile.append('file', file, file.name);
-                        if (file == this.uploadedFiles[this.uploadedFiles.length - 1]) {
-                            this.bewerbungService.addFileToBewerbung(bewerbungId, formDataFile).subscribe(() => {
-                                this.bewerbungService.sendBewerbung(bewerbungId).subscribe();
-                            });
-                        } else {
-                            this.bewerbungService.addFileToBewerbung(bewerbungId, formDataFile).subscribe();
-                        }
+                this.bewerbungService
+                    .addInformationToBewerbung(bewerbungId, bewerbung)
+                    .subscribe(() => {
+                        this.uploadedFiles.map(file => {
+                            const formDataFile = new FormData();
+                            formDataFile.append('file', file, file.name);
+                            if (
+                                file ==
+                                this.uploadedFiles[
+                                    this.uploadedFiles.length - 1
+                                ]
+                            ) {
+                                this.bewerbungService
+                                    .addFileToBewerbung(
+                                        bewerbungId,
+                                        formDataFile
+                                    )
+                                    .subscribe(() => {
+                                        this.bewerbungService
+                                            .sendBewerbung(bewerbungId)
+                                            .subscribe();
+                                    });
+                            } else {
+                                this.bewerbungService
+                                    .addFileToBewerbung(
+                                        bewerbungId,
+                                        formDataFile
+                                    )
+                                    .subscribe();
+                            }
+                        });
                     });
-                });
             }
         });
     }

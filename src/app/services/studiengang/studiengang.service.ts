@@ -8,7 +8,10 @@ import { NotificationService } from '../notification/notification.service';
 export class StudiengangService {
     private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
 
-    constructor(private http: HttpClient, private notificationService: NotificationService) {}
+    constructor(
+        private http: HttpClient,
+        private notificationService: NotificationService
+    ) {}
 
     public getAllStudiengaengeVisitor() {
         return this.http.get(this.BACKEND_URL + '/visitor/courses');
@@ -23,15 +26,20 @@ export class StudiengangService {
     }
 
     public getStudiengangByIdVisitor(studiengangId: number) {
-        return this.http.get(this.BACKEND_URL + '/visitor/courses/' + studiengangId);
+        return this.http.get(
+            this.BACKEND_URL + '/visitor/courses/' + studiengangId
+        );
     }
 
     public getStudiengangByIdEmployee(studiengangId: number) {
-        return this.http.get(this.BACKEND_URL + '/employee/courses/' + studiengangId, {
-            headers: new HttpHeaders({
-                token: localStorage.getItem('authToken') || '',
-            }),
-        });
+        return this.http.get(
+            this.BACKEND_URL + '/employee/courses/' + studiengangId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
     }
 
     public updateStudiengang(studiengang: any): void {
@@ -52,16 +60,18 @@ export class StudiengangService {
                 }
             )
             .subscribe(
-                (response) => {
+                response => {
                     if (response.courseUpdated == true) {
-                        this.notificationService.displayNotification('Der Studiengang wurde erfolgreich aktualisiert.');
+                        this.notificationService.displayNotification(
+                            'Der Studiengang wurde erfolgreich aktualisiert.'
+                        );
                     } else {
                         this.notificationService.displayNotification(
                             'Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.'
                         );
                     }
                 },
-                (error) => {
+                error => {
                     this.notificationService.displayNotification(
                         'Bei der Aktualisierung des Studiengangs ist ein Fehler aufgetreten.'
                     );
@@ -87,16 +97,18 @@ export class StudiengangService {
                 }
             )
             .subscribe(
-                (response) => {
+                response => {
                     if (response.newCourseInserted == true) {
-                        this.notificationService.displayNotification('Der Studiengang wurde erfolgreich hinzugefügt');
+                        this.notificationService.displayNotification(
+                            'Der Studiengang wurde erfolgreich hinzugefügt'
+                        );
                     } else {
                         this.notificationService.displayNotification(
                             'Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.'
                         );
                     }
                 },
-                (error) => {
+                error => {
                     this.notificationService.displayNotification(
                         'Beim Hinzufügen des Studiengangs ist ein Fehler aufgetreten.'
                     );

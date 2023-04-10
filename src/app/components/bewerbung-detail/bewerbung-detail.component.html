@@ -1,6 +1,10 @@
 <mat-card class="content-card" *ngIf="studiengang">
     <form [formGroup]="formGroup" class="vertical-align">
-        <mat-card-title>Bewerbung für Studiengang "{{ studiengang.course_name }}"</mat-card-title>
+        <mat-card-title
+            >Bewerbung für Studiengang "{{
+                studiengang.course_name
+            }}"</mat-card-title
+        >
         <mat-form-field color="accent">
             <mat-label>Vorname</mat-label>
             <input matInput required formControlName="applicantFirstName" />
@@ -23,20 +27,30 @@
         </mat-form-field>
     </form>
 
-    <input type="file" class="file-input" (change)="onFilesSelected($event)" #fileUpload multiple />
+    <input
+        type="file"
+        class="file-input"
+        (change)="onFilesSelected($event)"
+        #fileUpload
+        multiple />
     <div class="file-upload">
-        <button mat-mini-fab color="accent" class="upload-btn" (click)="fileUpload.click()">
+        <button
+            mat-mini-fab
+            color="accent"
+            class="upload-btn"
+            (click)="fileUpload.click()">
             <mat-icon>attach_file</mat-icon>
         </button>
-        {{ uploadedFileNames || 'Aktuell sind noch keine Dateien hochgeladen.' }}
+        {{
+            uploadedFileNames || 'Aktuell sind noch keine Dateien hochgeladen.'
+        }}
     </div>
     <button
         mat-raised-button
         color="primary"
         class="submit-btn"
         [disabled]="!hasBewerbungChangedValidly"
-        (click)="sendBewerbung()"
-    >
+        (click)="sendBewerbung()">
         Bewerbung abschicken
     </button>
 </mat-card>
