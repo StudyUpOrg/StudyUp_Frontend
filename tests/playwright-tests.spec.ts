@@ -5,7 +5,7 @@ test('authentification', async ({ page }) => {
   const username = 'Justin';
   const password = 'Justin!';
 
-  await page.goto('/');
+  await page.goto('https://localhost:3000/');
   await page.locator('a').filter({ hasText: 'Login' }).click();
   await page.getByLabel('Nutzername *').fill(username);
   await page.getByLabel('Passwort *').fill(password);
