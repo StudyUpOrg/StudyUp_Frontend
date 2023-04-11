@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-bewerbung-status',
     templateUrl: './bewerbung-status.component.html',
     styleUrls: ['./bewerbung-status.component.scss'],
 })
-export class BewerbungStatusComponent implements OnInit {
+export class BewerbungStatusComponent {
     public dataSource = [
         {
             title: 'Toller Studiengang',
@@ -17,6 +17,4 @@ export class BewerbungStatusComponent implements OnInit {
     public displayedColumns = ['title', 'firstName', 'lastName', 'status'];
 
     constructor() {}
-
-    ngOnInit(): void {}
 }
