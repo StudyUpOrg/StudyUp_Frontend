@@ -1,12 +1,12 @@
 <mat-toolbar color="primary">
-  <span>StudyUp</span> 
-  <a mat-button routerLink="/studiengang/übersicht">Studiengänge</a>
-  <div *ngIf="loggedIn">
-    <a mat-button>Bewerbungen</a>
-    <a mat-button>Evaluationsbögen</a>
-  </div>
-  <a class="fill-remaining-space"></a>
-  <a *ngIf="loggedIn" mat-button routerLink="/konto">Konto</a>
-  <a *ngIf="!loggedIn" mat-button (click)="openLoginDialog()">Login</a>
+    <span>StudyUp</span>
+    <a mat-button routerLink="/studiengang/übersicht">Studiengänge</a>
+    <div *ngIf="loggedIn">
+        <a mat-button>Bewerbungen</a>
+        <a mat-button routerLink="/evaluationsbogen">Evaluationsbögen</a>
+    </div>
+    <a class="fill-remaining-space"></a>
+    <a *ngIf="loggedIn" mat-button routerLink="/konto">Konto</a>
+    <a *ngIf="!loggedIn" mat-button (click)="openLoginDialog()">Login</a>
 </mat-toolbar>
 <router-outlet></router-outlet>

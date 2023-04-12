@@ -25,48 +25,52 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { AccountComponent } from './components/account/account.component';
+import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
 import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
+import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    StudiengangOverviewComponent,
-    AccountComponent,
-    BewerbungDetailComponent,
-    StudiengangDetailComponent,
-    BewerbungOverviewComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatDialogModule,
-    MatTableModule,
-    MatIconModule,
-    MatSnackBarModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  providers: [
-    {
-      provide: MAT_DATE_LOCALE,
-      useValue: 'de-DE',
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        StudiengangOverviewComponent,
+        AccountComponent,
+        BewerbungStatusComponent,
+        BewerbungDetailComponent,
+        BewerbungOverviewComponent,
+        StudiengangDetailComponent,
+        EvaluationSheetCreationComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCardModule,
+        MatDialogModule,
+        MatTableModule,
+        MatIconModule,
+        MatSnackBarModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    providers: [
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'de-DE',
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}
