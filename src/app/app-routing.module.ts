@@ -33,7 +33,7 @@ const routes: Routes = [
     },
     {
         path: 'bewerbung/übersicht',
-        component: BewerbungOverviewComponent
+        component: BewerbungOverviewComponent,
     },
     {
         path: 'studiengang/detail/:id/bewerben',
