@@ -27,6 +27,7 @@ import { StudiengangOverviewComponent } from './components/studiengang-overview/
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
+import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 
 @NgModule({
@@ -38,6 +39,7 @@ import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-
         AccountComponent,
         BewerbungStatusComponent,
         BewerbungDetailComponent,
+        BewerbungOverviewComponent,
         StudiengangDetailComponent,
         EvaluationSheetCreationComponent,
     ],

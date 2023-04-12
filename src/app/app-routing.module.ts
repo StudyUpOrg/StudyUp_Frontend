@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
+import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
         path: 'bewerbung/:id/status',
         component: BewerbungStatusComponent,
+    },
+    {
+        path: 'bewerbung/übersicht',
+        component: BewerbungOverviewComponent,
     },
     {
         path: 'studiengang/detail/:id/bewerben',
