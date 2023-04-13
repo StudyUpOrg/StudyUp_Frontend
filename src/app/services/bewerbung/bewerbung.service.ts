@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../notification/notification.service';
@@ -43,5 +43,13 @@ export class BewerbungService {
             this.BACKEND_URL + '/visitor/application/send/' + bewerbungId,
             {}
         );
+    }
+
+    public getAllBewerbungen(): Observable<any> {
+        return this.http.get<any>(this.BACKEND_URL + '/employee/applications', {
+            headers: new HttpHeaders({
+                token: localStorage.getItem('authToken') || '',
+            }),
+        });
     }
 }

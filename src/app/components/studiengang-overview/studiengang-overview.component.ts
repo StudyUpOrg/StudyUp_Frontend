@@ -9,15 +9,17 @@ import { StudiengangService } from 'src/app/services/studiengang/studiengang.ser
 })
 export class StudiengangOverviewComponent implements OnInit {
     public loggedIn!: boolean;
-    public displayedColumns: string[];
+    public displayedColumns!: string[];
     public studiengaenge: any;
 
     constructor(
         private studiengangService: StudiengangService,
         private authService: AuthService
-    ) {
+    ) {}
+
+    ngOnInit(): void {
         this.displayedColumns = ['title', 'degree', 'startDate', 'link'];
-        authService.$loggedIn.subscribe(loggedIn => {
+        this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
             if (this.loggedIn) {
                 this.displayedColumns = [
@@ -38,14 +40,6 @@ export class StudiengangOverviewComponent implements OnInit {
                 this.getAllStudiengaengeVisitor();
             }
         });
-    }
-
-    ngOnInit(): void {
-        if (this.loggedIn) {
-            this.getAllStudiengaengeEmployee();
-        } else {
-            this.getAllStudiengaengeVisitor();
-        }
     }
 
     private getAllStudiengaengeEmployee(): void {
