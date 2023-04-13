@@ -9,10 +9,7 @@ import { NotificationService } from '../notification/notification.service';
 export class BewerbungService {
     private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
 
-    constructor(
-        private http: HttpClient,
-        private notificationService: NotificationService
-    ) {}
+    constructor(private http: HttpClient) {}
 
     public createBewerbung(): Observable<any> {
         return this.http.post<number>(this.BACKEND_URL + '/visitor/apply', {});

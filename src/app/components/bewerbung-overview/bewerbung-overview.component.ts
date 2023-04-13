@@ -26,7 +26,7 @@ export class BewerbungOverviewComponent implements OnInit {
     ngOnInit(): void {
         this.displayedColumns = [
             'courseName',
-            'startDate',
+            'receiptDate',
             'firstName',
             'lastName',
             'status',
