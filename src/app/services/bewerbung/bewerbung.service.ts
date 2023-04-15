@@ -9,10 +9,7 @@ import { NotificationService } from '../notification/notification.service';
 export class BewerbungService {
     private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
 
-    constructor(
-        private http: HttpClient,
-        private notificationService: NotificationService
-    ) {}
+    constructor(private http: HttpClient) {}
 
     public createBewerbung(): Observable<any> {
         return this.http.post<number>(this.BACKEND_URL + '/visitor/apply', {});
@@ -51,5 +48,33 @@ export class BewerbungService {
                 token: localStorage.getItem('authToken') || '',
             }),
         });
+    }
+
+    public getBewerbungInformationById(bewerbungId: number): Observable<any> {
+        return this.http.get<any>(
+            this.BACKEND_URL +
+                '/employee/applications/information/' +
+                bewerbungId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
+    }
+
+    public getBewerbungFileInformationById(
+        bewerbungId: number
+    ): Observable<any> {
+        return this.http.get<any>(
+            this.BACKEND_URL +
+                '/employee/applications/files/information/' +
+                bewerbungId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
     }
 }
