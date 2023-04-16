@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
+import { DownloadFileService } from 'src/app/services/download-file/download-file.service';
+import { EvaluationService } from 'src/app/services/evaluation/evaluation.service';
 
 @Component({
     selector: 'app-bewerbung-evaluation',
@@ -15,21 +17,43 @@ export class BewerbungEvaluationComponent implements OnInit {
     public loggedIn!: boolean;
     public bewerbung!: any;
     public formGroup!: FormGroup;
+    public evaluationSheets!: any[];
+    public evaluationSheetForm!: FormControl;
 
     constructor(
         private authService: AuthService,
         private route: ActivatedRoute,
         private bewerbungService: BewerbungService,
         private formBuilder: FormBuilder,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private downloadFileService: DownloadFileService,
+        private evaluationService: EvaluationService
     ) {}
 
     ngOnInit(): void {
+        this.evaluationSheets = [
+            {
+                name: 'Englischkenntnisse',
+                id: 1,
+                criterias: [
+                    {
+                        name: 'Leseverstehen',
+                        rating: undefined,
+                    },
+                    {
+                        name: 'Hörverstehen',
+                        rating: 4,
+                    },
+                ],
+            },
+        ];
+        this.evaluationSheetForm = new FormControl();
         this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
             if (this.loggedIn) {
                 this.route.params.subscribe(params => {
                     this.getBewerbung(params['id']);
+                    this.getEvaluationTemplates(params['id']);
                 });
             }
         });
@@ -46,7 +70,8 @@ export class BewerbungEvaluationComponent implements OnInit {
                 );
                 this.bewerbungService
                     .getBewerbungFileInformationById(bewerbungId)
-                    .subscribe(response => {
+                    .subscribe(files => {
+                        this.bewerbung.files = files;
                         this.formGroup = this.formBuilder.group({
                             applicantFirstName: [this.bewerbung.applicantname],
                             applicantLastName: [this.bewerbung.applicantname],
@@ -58,9 +83,20 @@ export class BewerbungEvaluationComponent implements OnInit {
                             ],
                             courseName: [this.bewerbung.coursename],
                         });
-
                         this.formGroup.disable();
                     });
             });
+    }
+
+    private getEvaluationTemplates(bewerbungId: number): void {
+        this.evaluationService
+            .getEvaluationTemplatesByBewerbungId(bewerbungId)
+            .subscribe();
+    }
+
+    public downloadBewerbungFile(file: any): void {
+        this.bewerbungService.getBewerbungFileById(file.id).subscribe(blob => {
+            this.downloadFileService.downloadFile(blob, file.originalName);
+        });
     }
 }

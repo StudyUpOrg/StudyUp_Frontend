@@ -77,4 +77,15 @@ export class BewerbungService {
             }
         );
     }
+
+    public getBewerbungFileById(fileId: number): Observable<any> {
+        return this.http.get(
+            this.BACKEND_URL + '/employee/applications/files/file/' + fileId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
+    }
 }

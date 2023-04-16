@@ -1,33 +1,80 @@
 <mat-card class="content-card" *ngIf="loggedIn && bewerbung && formGroup">
     <mat-card-title>Bewerbungsevaluation</mat-card-title>
-    <form [formGroup]="formGroup" class="vertical-align">
-        <mat-form-field color="accent">
-            <mat-label>Vorname</mat-label>
-            <input matInput required formControlName="applicantFirstName" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Nachname</mat-label>
-            <input matInput required formControlName="applicantLastName" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>E-Mail</mat-label>
-            <input matInput required formControlName="applicantMail" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Telefonnummer</mat-label>
-            <input matInput required formControlName="applicantTelNo" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Studiengang</mat-label>
-            <input matInput required formControlName="courseName" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Einreichdatum</mat-label>
-            <input matInput required formControlName="applicationReciptDate" />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Anschreiben</mat-label>
-            <textarea matInput formControlName="applicantLetter"></textarea>
-        </mat-form-field>
-    </form>
+    <div class="horizontal-align gap">
+        <form [formGroup]="formGroup" class="vertical-align">
+            <h2>Bewerbungsinformationen</h2>
+            <mat-form-field color="accent">
+                <mat-label>Vorname</mat-label>
+                <input matInput required formControlName="applicantFirstName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Nachname</mat-label>
+                <input matInput required formControlName="applicantLastName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>E-Mail</mat-label>
+                <input matInput required formControlName="applicantMail" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Telefonnummer</mat-label>
+                <input matInput required formControlName="applicantTelNo" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Studiengang</mat-label>
+                <input matInput required formControlName="courseName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Einreichdatum</mat-label>
+                <input
+                    matInput
+                    required
+                    formControlName="applicationReciptDate" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Anschreiben</mat-label>
+                <textarea matInput formControlName="applicantLetter"></textarea>
+            </mat-form-field>
+            <button
+                *ngFor="let file of bewerbung.files"
+                mat-raised-button
+                color="accent"
+                (click)="downloadBewerbungFile(file)">
+                {{ file.originalName }}
+                <mat-icon>get_app</mat-icon>
+            </button>
+        </form>
+        <div class="vertical-align">
+            <h2>Verfügbare Evaluationsbögen</h2>
+            <mat-form-field color="accent">
+                <mat-select
+                    placeholder="Wähle Evaluationsbogen"
+                    [formControl]="evaluationSheetForm">
+                    <mat-option
+                        *ngFor="let element of evaluationSheets"
+                        [value]="element"
+                        >{{ element.name }}</mat-option
+                    >
+                </mat-select>
+            </mat-form-field>
+            <mat-list *ngIf="evaluationSheetForm.value">
+                <mat-list-item
+                    *ngFor="
+                        let criteria of evaluationSheetForm.value.criterias
+                    ">
+                    <mat-form-field color="accent">
+                        <input
+                            placeholder="{{ criteria.name }}"
+                            matInput
+                            required
+                            value="{{ criteria.rating }}"
+                            required />
+                    </mat-form-field>
+                </mat-list-item>
+            </mat-list>
+            <button mat-raised-button color="accent" class="evaluation-button">
+                Bewertung speichern
+            </button>
+        </div>
+    </div>
+    <button mat-raised-button color="primary">Status speichern</button>
 </mat-card>
