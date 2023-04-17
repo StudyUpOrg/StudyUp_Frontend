@@ -1,4 +1,4 @@
-<mat-card class="content-card">
+<mat-card class="content-card" *ngIf="loggedIn && studiengaenge">
     <mat-card-title>Evaluationsbogen erstellen</mat-card-title>
     <div class="vertical-align">
         <mat-form-field color="accent">
@@ -6,33 +6,87 @@
             <input matInput [formControl]="evaluationSheetNameForm" required />
         </mat-form-field>
         <div class="horizontal-align">
-            <mat-form-field color="accent">
+            <mat-form-field color="accent" class="critera-form">
                 <mat-label>Kriterium</mat-label>
-                <input matInput [formControl]="criteriaForm" />
+                <input matInput [formControl]="criteriaForm" required />
             </mat-form-field>
-            <button mat-raised-button color="accent" class="criteria-button">
+            <button
+                mat-raised-button
+                color="accent"
+                class="criteria-button"
+                (click)="addCriteria()"
+                [disabled]="!criteriaForm.value">
                 Kriterium hinzufügen
             </button>
         </div>
-        <mat-list>
-            <mat-list-item *ngFor="let element of criterias">{{
-                element
-            }}</mat-list-item>
+        <h2>Kriterien</h2>
+        <mat-list *ngIf="criterias">
+            <mat-list-item *ngFor="let element of criterias">
+                <mat-icon color="accent">label</mat-icon>
+                {{ element }}</mat-list-item
+            >
         </mat-list>
-        <mat-form-field color="accent" class="studiengang-form">
-            <mat-select
-                placeholder="Studiengang"
-                [formControl]="studiengangForm"
-                multiple
-                required>
-                <mat-option
-                    *ngFor="let element of studiengangNames"
-                    [value]="element"
-                    >{{ element }}</mat-option
+        <h2>Studiengänge</h2>
+        <mat-table #table [dataSource]="studiengaenge">
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{
+                    element.course_name
+                }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="degree">
+                <mat-header-cell *matHeaderCellDef
+                    >Abschlussart</mat-header-cell
                 >
-            </mat-select>
-        </mat-form-field>
-        <button mat-raised-button color="primary">
+                <mat-cell *matCellDef="let element">{{
+                    element.degree_name
+                }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="startDate">
+                <mat-header-cell *matHeaderCellDef>Startdatum</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{
+                    element.course_start_date | date : 'dd.MM.yyyy'
+                }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="active">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span *ngIf="element.course_activated" class="status-active"
+                        >aktiv</span
+                    >
+                    <span
+                        *ngIf="!element.course_activated"
+                        class="status-inactive"
+                        >inaktiv</span
+                    >
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="checkbox">
+                <mat-header-cell *matHeaderCellDef
+                    >Studiengang auswählen</mat-header-cell
+                >
+                <mat-cell *matCellDef="let element">
+                    <mat-checkbox
+                        [(ngModel)]="element.isSelected"></mat-checkbox>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+                *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+        <button
+            mat-raised-button
+            color="primary"
+            class="submit-button"
+            [disabled]="
+                !(criterias.length > 0) || !evaluationSheetNameForm.value
+            "
+            (click)="createEvaluationSheet()">
             Evaluationsbogen erstellen
         </button>
     </div>

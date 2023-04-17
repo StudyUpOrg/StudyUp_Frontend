@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -62,6 +63,7 @@ import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-
         MatNativeDateModule,
         MatSlideToggleModule,
         MatSelectModule,
+        MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
     ],
