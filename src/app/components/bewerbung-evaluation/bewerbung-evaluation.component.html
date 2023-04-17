@@ -56,7 +56,7 @@
                     >
                 </mat-select>
             </mat-form-field>
-            <mat-list *ngIf="evaluationSheetForm.value">
+            <!-- <mat-list *ngIf="evaluationSheetForm.value">
                 <mat-list-item
                     *ngFor="
                         let criteria of evaluationSheetForm.value.criterias
@@ -70,7 +70,72 @@
                             required />
                     </mat-form-field>
                 </mat-list-item>
-            </mat-list>
+            </mat-list> -->
+            <mat-table #table [dataSource]="criterias">
+                <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef
+                        >Kriterium</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element">{{
+                        element.name
+                    }}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="degree">
+                    <mat-header-cell *matHeaderCellDef
+                        >Abschlussart</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element"
+                        >{{
+                        <input
+                            matInput
+                            type="number"
+                            value="{{ element.rating }}"
+                            [(ngModel)]="" />
+                        }}</mat-cell
+                    >
+                </ng-container>
+
+                <ng-container matColumnDef="startDate">
+                    <mat-header-cell *matHeaderCellDef
+                        >Startdatum</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element">{{
+                        element.course_start_date | date : 'dd.MM.yyyy'
+                    }}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <span
+                            *ngIf="element.course_activated"
+                            class="status-active"
+                            >aktiv</span
+                        >
+                        <span
+                            *ngIf="!element.course_activated"
+                            class="status-inactive"
+                            >inaktiv</span
+                        >
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="checkbox">
+                    <mat-header-cell *matHeaderCellDef
+                        >Studiengang auswählen</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element">
+                        <mat-checkbox
+                            [(ngModel)]="element.isSelected"></mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
             <button mat-raised-button color="accent" class="evaluation-button">
                 Bewertung speichern
             </button>
