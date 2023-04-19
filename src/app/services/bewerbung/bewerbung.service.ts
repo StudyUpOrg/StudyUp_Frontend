@@ -85,6 +85,7 @@ export class BewerbungService {
                 headers: new HttpHeaders({
                     token: localStorage.getItem('authToken') || '',
                 }),
+                responseType: 'blob',
             }
         );
     }

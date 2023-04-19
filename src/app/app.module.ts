@@ -14,7 +14,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -64,6 +66,8 @@ import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/
         MatNativeDateModule,
         MatSlideToggleModule,
         MatSelectModule,
+        MatSliderModule,
+        MatTabsModule,
         FormsModule,
         ReactiveFormsModule,
     ],

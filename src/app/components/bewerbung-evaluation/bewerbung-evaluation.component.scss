@@ -2,6 +2,27 @@
     gap: 16px;
 }
 
-.evaluation-button {
-    height: fit-content;
+.column {
+    width: 50%;
+}
+
+.top-margin {
+    margin-top: 16px;
+}
+
+.bottom-margin {
+    margin-bottom: 16px;
+}
+
+.no-bottom {
+    margin-bottom: -1.25em !important;
+}
+
+mat-tab {
+    display: block;
+}
+
+h3 {
+    margin-top: 16px;
+    margin-bottom: 0;
 }

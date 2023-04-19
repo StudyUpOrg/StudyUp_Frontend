@@ -18,7 +18,9 @@ export class BewerbungEvaluationComponent implements OnInit {
     public bewerbung!: any;
     public formGroup!: FormGroup;
     public evaluationSheets!: any[];
-    public evaluationSheetForm!: FormControl;
+    public selectedEvaluationTemplate!: any;
+    public displayedColumns!: string[];
+    public statusList!: string[];
 
     constructor(
         private authService: AuthService,
@@ -38,16 +40,38 @@ export class BewerbungEvaluationComponent implements OnInit {
                 criterias: [
                     {
                         name: 'Leseverstehen',
-                        rating: undefined,
+                        rating: 3,
                     },
                     {
                         name: 'Hörverstehen',
                         rating: 4,
                     },
                 ],
+                criteriaFeedback: 'Der Mann kann Englisch. Top!',
+            },
+            {
+                name: 'IT-Kenntnisse',
+                id: 2,
+                criterias: [
+                    {
+                        name: 'Python',
+                        rating: 5,
+                    },
+                    {
+                        name: 'Java',
+                        rating: 3,
+                    },
+                ],
+                criteriaFeedback: 'Tiefgreifende Kenntnisse in Python!',
             },
         ];
-        this.evaluationSheetForm = new FormControl();
+        this.statusList = [
+            'Angenommen',
+            'Abgelehnt',
+            'In Bearbeitung',
+            'Eingereicht',
+        ];
+        this.displayedColumns = ['criteria', 'rating'];
         this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
             if (this.loggedIn) {
@@ -98,5 +122,9 @@ export class BewerbungEvaluationComponent implements OnInit {
         this.bewerbungService.getBewerbungFileById(file.id).subscribe(blob => {
             this.downloadFileService.downloadFile(blob, file.originalName);
         });
+    }
+
+    public saveEvaluation(): void {
+        console.log('test');
     }
 }

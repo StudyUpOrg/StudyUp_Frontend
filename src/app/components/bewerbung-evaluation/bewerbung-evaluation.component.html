@@ -1,7 +1,9 @@
-<mat-card class="content-card" *ngIf="loggedIn && bewerbung && formGroup">
+<mat-card
+    class="content-card vertical-align"
+    *ngIf="loggedIn && bewerbung && formGroup">
     <mat-card-title>Bewerbungsevaluation</mat-card-title>
-    <div class="horizontal-align gap">
-        <form [formGroup]="formGroup" class="vertical-align">
+    <div class="horizontal-align gap full-width">
+        <form [formGroup]="formGroup" class="vertical-align column">
             <h2>Bewerbungsinformationen</h2>
             <mat-form-field color="accent">
                 <mat-label>Vorname</mat-label>
@@ -43,103 +45,127 @@
                 <mat-icon>get_app</mat-icon>
             </button>
         </form>
-        <div class="vertical-align">
-            <h2>Verfügbare Evaluationsbögen</h2>
-            <mat-form-field color="accent">
-                <mat-select
-                    placeholder="Wähle Evaluationsbogen"
-                    [formControl]="evaluationSheetForm">
-                    <mat-option
-                        *ngFor="let element of evaluationSheets"
-                        [value]="element"
-                        >{{ element.name }}</mat-option
-                    >
-                </mat-select>
-            </mat-form-field>
-            <!-- <mat-list *ngIf="evaluationSheetForm.value">
-                <mat-list-item
-                    *ngFor="
-                        let criteria of evaluationSheetForm.value.criterias
-                    ">
-                    <mat-form-field color="accent">
-                        <input
-                            placeholder="{{ criteria.name }}"
-                            matInput
-                            required
-                            value="{{ criteria.rating }}"
-                            required />
-                    </mat-form-field>
-                </mat-list-item>
-            </mat-list> -->
-            <mat-table #table [dataSource]="criterias">
-                <ng-container matColumnDef="title">
-                    <mat-header-cell *matHeaderCellDef
-                        >Kriterium</mat-header-cell
-                    >
-                    <mat-cell *matCellDef="let element">{{
-                        element.name
-                    }}</mat-cell>
-                </ng-container>
+        <mat-tab-group class="column">
+            <mat-tab label="Bestehene Evaluationen">
+                <div *ngFor="let evaluation of evaluationSheets">
+                    <h3>{{ evaluation.name }}</h3>
+                    <mat-table #table [dataSource]="evaluation.criterias">
+                        <ng-container matColumnDef="criteria">
+                            <mat-header-cell *matHeaderCellDef>
+                                Kriterium
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.name }}
+                            </mat-cell>
+                        </ng-container>
 
-                <ng-container matColumnDef="degree">
-                    <mat-header-cell *matHeaderCellDef
-                        >Abschlussart</mat-header-cell
-                    >
-                    <mat-cell *matCellDef="let element"
-                        >{{
-                        <input
-                            matInput
-                            type="number"
-                            value="{{ element.rating }}"
-                            [(ngModel)]="" />
-                        }}</mat-cell
-                    >
-                </ng-container>
+                        <ng-container matColumnDef="rating">
+                            <mat-header-cell *matHeaderCellDef>
+                                Bewertung (1-5)
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.rating }}
+                            </mat-cell>
+                        </ng-container>
 
-                <ng-container matColumnDef="startDate">
-                    <mat-header-cell *matHeaderCellDef
-                        >Startdatum</mat-header-cell
-                    >
-                    <mat-cell *matCellDef="let element">{{
-                        element.course_start_date | date : 'dd.MM.yyyy'
-                    }}</mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="active">
-                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <span
-                            *ngIf="element.course_activated"
-                            class="status-active"
-                            >aktiv</span
+                        <mat-header-row
+                            *matHeaderRowDef="
+                                displayedColumns
+                            "></mat-header-row>
+                        <mat-row
+                            *matRowDef="
+                                let row;
+                                columns: displayedColumns
+                            "></mat-row>
+                    </mat-table>
+                    <p class="full-width top-margin">
+                        Feedback: {{ evaluation.criteriaFeedback }}
+                    </p>
+                </div>
+            </mat-tab>
+            <mat-tab label="Neue Evaluation" class="vertical-align gap">
+                <mat-form-field
+                    color="accent"
+                    class="top-margin full-width no-bottom">
+                    <mat-select
+                        placeholder="Evaluationsbogen"
+                        [(ngModel)]="selectedEvaluationTemplate">
+                        <mat-option
+                            *ngFor="let element of evaluationSheets"
+                            [value]="element"
+                            >{{ element.name }}</mat-option
                         >
-                        <span
-                            *ngIf="!element.course_activated"
-                            class="status-inactive"
-                            >inaktiv</span
-                        >
-                    </mat-cell>
-                </ng-container>
+                    </mat-select>
+                </mat-form-field>
+                <mat-table
+                    #table
+                    *ngIf="selectedEvaluationTemplate"
+                    [dataSource]="selectedEvaluationTemplate.criterias">
+                    <ng-container matColumnDef="criteria">
+                        <mat-header-cell *matHeaderCellDef>
+                            Kriterium
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            {{ element.name }}
+                        </mat-cell>
+                    </ng-container>
 
-                <ng-container matColumnDef="checkbox">
-                    <mat-header-cell *matHeaderCellDef
-                        >Studiengang auswählen</mat-header-cell
-                    >
-                    <mat-cell *matCellDef="let element">
-                        <mat-checkbox
-                            [(ngModel)]="element.isSelected"></mat-checkbox>
-                    </mat-cell>
-                </ng-container>
+                    <ng-container matColumnDef="rating">
+                        <mat-header-cell *matHeaderCellDef>
+                            Bewertung (1-5)
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <input
+                                matInput
+                                type="number"
+                                min="1"
+                                max="5"
+                                [(ngModel)]="element.rating" />
+                        </mat-cell>
+                    </ng-container>
 
-                <mat-header-row
-                    *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row
-                    *matRowDef="let row; columns: displayedColumns"></mat-row>
-            </mat-table>
-            <button mat-raised-button color="accent" class="evaluation-button">
-                Bewertung speichern
-            </button>
-        </div>
+                    <mat-header-row
+                        *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row
+                        *matRowDef="
+                            let row;
+                            columns: displayedColumns
+                        "></mat-row>
+                </mat-table>
+                <mat-form-field
+                    *ngIf="selectedEvaluationTemplate"
+                    color="accent"
+                    class="top-margin full-width no-bottom">
+                    <mat-label>Feedback</mat-label>
+                    <textarea
+                        matInput
+                        [(ngModel)]="
+                            selectedEvaluationTemplate.criteriaFeedback
+                        "></textarea>
+                </mat-form-field>
+                <button
+                    class="full-width top-margin bottom-margin"
+                    mat-raised-button
+                    color="accent"
+                    (click)="saveEvaluation()">
+                    Bewertung speichern
+                </button>
+            </mat-tab>
+        </mat-tab-group>
     </div>
-    <button mat-raised-button color="primary">Status speichern</button>
+    <mat-divider [inset]="true"></mat-divider>
+    <div class="horizontal-align top-margin gap">
+        <mat-form-field color="accent" class="no-bottom">
+            <mat-select
+                placeholder="Status"
+                [(ngModel)]="bewerbung.applicationstatus">
+                <mat-option
+                    *ngFor="let status of statusList"
+                    [value]="status"
+                    >{{ status }}</mat-option
+                >
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Status speichern</button>
+    </div>
 </mat-card>
