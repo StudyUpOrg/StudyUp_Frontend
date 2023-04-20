@@ -28,6 +28,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .vertical-align {
     display: grid;
+    height: min-content;
 }
 
 .horizontal-align {

@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
 import { StudiengangService } from 'src/app/services/studiengang/studiengang.service';
-import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-bewerbung-detail',
@@ -30,9 +29,11 @@ export class BewerbungDetailComponent implements OnInit {
     ngOnInit(): void {
         this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
-        });
-        this.route.params.subscribe(params => {
-            this.getStudiengangAndInitializeFormGroup(params['id']);
+            if (this.loggedIn) {
+                this.route.params.subscribe(params => {
+                    this.getStudiengangAndInitializeFormGroup(params['id']);
+                });
+            }
         });
     }
 

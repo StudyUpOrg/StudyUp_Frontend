@@ -19,5 +19,11 @@
                 formControlName="password" />
         </mat-form-field>
     </form>
-    <button mat-raised-button color="primary" (click)="login()">Login</button>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="login()"
+        [disabled]="!(loginForm.value.username && loginForm.value.password)">
+        Login
+    </button>
 </div>

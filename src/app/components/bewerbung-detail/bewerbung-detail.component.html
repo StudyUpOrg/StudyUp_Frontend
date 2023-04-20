@@ -1,10 +1,10 @@
 <mat-card class="content-card" *ngIf="studiengang">
+    <mat-card-title
+        >Bewerbung für Studiengang "{{
+            studiengang.course_name
+        }}"</mat-card-title
+    >
     <form [formGroup]="formGroup" class="vertical-align">
-        <mat-card-title
-            >Bewerbung für Studiengang "{{
-                studiengang.course_name
-            }}"</mat-card-title
-        >
         <mat-form-field color="accent">
             <mat-label>Vorname</mat-label>
             <input matInput required formControlName="applicantFirstName" />

@@ -14,7 +14,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +31,7 @@ import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbun
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
 import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
+import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/bewerbung-evaluation.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +45,7 @@ import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-
         BewerbungOverviewComponent,
         StudiengangDetailComponent,
         EvaluationSheetCreationComponent,
+        BewerbungEvaluationComponent,
     ],
     imports: [
         BrowserModule,
@@ -62,6 +66,8 @@ import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-
         MatNativeDateModule,
         MatSlideToggleModule,
         MatSelectModule,
+        MatSliderModule,
+        MatTabsModule,
         FormsModule,
         ReactiveFormsModule,
     ],

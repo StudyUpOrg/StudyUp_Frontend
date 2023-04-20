@@ -1,0 +1,171 @@
+<mat-card
+    class="content-card vertical-align"
+    *ngIf="loggedIn && bewerbung && formGroup">
+    <mat-card-title>Bewerbungsevaluation</mat-card-title>
+    <div class="horizontal-align gap full-width">
+        <form [formGroup]="formGroup" class="vertical-align column">
+            <h2>Bewerbungsinformationen</h2>
+            <mat-form-field color="accent">
+                <mat-label>Vorname</mat-label>
+                <input matInput required formControlName="applicantFirstName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Nachname</mat-label>
+                <input matInput required formControlName="applicantLastName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>E-Mail</mat-label>
+                <input matInput required formControlName="applicantMail" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Telefonnummer</mat-label>
+                <input matInput required formControlName="applicantTelNo" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Studiengang</mat-label>
+                <input matInput required formControlName="courseName" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Einreichdatum</mat-label>
+                <input
+                    matInput
+                    required
+                    formControlName="applicationReciptDate" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Anschreiben</mat-label>
+                <textarea matInput formControlName="applicantLetter"></textarea>
+            </mat-form-field>
+            <button
+                *ngFor="let file of bewerbung.files"
+                mat-raised-button
+                color="accent"
+                (click)="downloadBewerbungFile(file)">
+                {{ file.originalName }}
+                <mat-icon>get_app</mat-icon>
+            </button>
+        </form>
+        <mat-tab-group class="column">
+            <mat-tab label="Bestehene Evaluationen">
+                <div *ngFor="let evaluation of evaluationSheets">
+                    <h3>{{ evaluation.name }}</h3>
+                    <mat-table #table [dataSource]="evaluation.criterias">
+                        <ng-container matColumnDef="criteria">
+                            <mat-header-cell *matHeaderCellDef>
+                                Kriterium
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.name }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="rating">
+                            <mat-header-cell *matHeaderCellDef>
+                                Bewertung (1-5)
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{ element.rating }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row
+                            *matHeaderRowDef="
+                                displayedColumns
+                            "></mat-header-row>
+                        <mat-row
+                            *matRowDef="
+                                let row;
+                                columns: displayedColumns
+                            "></mat-row>
+                    </mat-table>
+                    <p class="full-width top-margin">
+                        Feedback: {{ evaluation.criteriaFeedback }}
+                    </p>
+                </div>
+            </mat-tab>
+            <mat-tab label="Neue Evaluation" class="vertical-align gap">
+                <mat-form-field
+                    color="accent"
+                    class="top-margin full-width no-bottom">
+                    <mat-select
+                        placeholder="Evaluationsbogen"
+                        [(ngModel)]="selectedEvaluationTemplate">
+                        <mat-option
+                            *ngFor="let element of evaluationSheets"
+                            [value]="element"
+                            >{{ element.name }}</mat-option
+                        >
+                    </mat-select>
+                </mat-form-field>
+                <mat-table
+                    #table
+                    *ngIf="selectedEvaluationTemplate"
+                    [dataSource]="selectedEvaluationTemplate.criterias">
+                    <ng-container matColumnDef="criteria">
+                        <mat-header-cell *matHeaderCellDef>
+                            Kriterium
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            {{ element.name }}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rating">
+                        <mat-header-cell *matHeaderCellDef>
+                            Bewertung (1-5)
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <input
+                                matInput
+                                type="number"
+                                min="1"
+                                max="5"
+                                [(ngModel)]="element.rating" />
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row
+                        *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row
+                        *matRowDef="
+                            let row;
+                            columns: displayedColumns
+                        "></mat-row>
+                </mat-table>
+                <mat-form-field
+                    *ngIf="selectedEvaluationTemplate"
+                    color="accent"
+                    class="top-margin full-width no-bottom">
+                    <mat-label>Feedback</mat-label>
+                    <textarea
+                        matInput
+                        [(ngModel)]="
+                            selectedEvaluationTemplate.criteriaFeedback
+                        "></textarea>
+                </mat-form-field>
+                <button
+                    class="full-width top-margin bottom-margin"
+                    mat-raised-button
+                    color="accent"
+                    (click)="saveEvaluation()">
+                    Bewertung speichern
+                </button>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+    <mat-divider [inset]="true"></mat-divider>
+    <div class="horizontal-align top-margin gap">
+        <mat-form-field color="accent" class="no-bottom">
+            <mat-select
+                placeholder="Status"
+                [(ngModel)]="bewerbung.applicationstatus">
+                <mat-option
+                    *ngFor="let status of statusList"
+                    [value]="status"
+                    >{{ status }}</mat-option
+                >
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Status speichern</button>
+    </div>
+</mat-card>
