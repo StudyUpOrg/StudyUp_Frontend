@@ -1,10 +1,26 @@
 .criteria-button {
-    margin-left: 16px;
+    margin-left: auto;
+    margin-right: 16px;
     width: fit-content;
     height: fit-content;
 }
 
-.studiengang-form {
-    width: fit-content;
-    height: fit-content;
+.critera-form {
+    width: 760px !important;
+}
+
+.submit-button {
+    margin-top: 16px;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+mat-icon {
+    margin-right: 8px;
+}
+
+mat-list mat-list-item {
+    height: 30px;
 }

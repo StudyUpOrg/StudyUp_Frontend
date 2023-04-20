@@ -16,6 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -68,6 +69,7 @@ import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/
         MatNativeDateModule,
         MatSlideToggleModule,
         MatSelectModule,
+        MatCheckboxModule,
         MatSliderModule,
         MatTabsModule,
         FormsModule,
