@@ -49,4 +49,44 @@ export class BewerbungService {
             }),
         });
     }
+
+    public getBewerbungInformationById(bewerbungId: number): Observable<any> {
+        return this.http.get<any>(
+            this.BACKEND_URL +
+                '/employee/applications/information/' +
+                bewerbungId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
+    }
+
+    public getBewerbungFileInformationById(
+        bewerbungId: number
+    ): Observable<any> {
+        return this.http.get<any>(
+            this.BACKEND_URL +
+                '/employee/applications/files/information/' +
+                bewerbungId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
+    }
+
+    public getBewerbungFileById(fileId: number): Observable<any> {
+        return this.http.get(
+            this.BACKEND_URL + '/employee/applications/files/file/' + fileId,
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+                responseType: 'blob',
+            }
+        );
+    }
 }

@@ -34,9 +34,11 @@ export class BewerbungDetailComponent implements OnInit {
     ngOnInit(): void {
         this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
-        });
-        this.route.params.subscribe(params => {
-            this.getStudiengangAndInitializeFormGroup(params['id']);
+            if (this.loggedIn) {
+                this.route.params.subscribe(params => {
+                    this.getStudiengangAndInitializeFormGroup(params['id']);
+                });
+            }
         });
     }
 
