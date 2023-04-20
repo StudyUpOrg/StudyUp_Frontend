@@ -26,31 +26,29 @@ export class StudiengangDetailComponent implements OnInit {
     ngOnInit(): void {
         this.authService.$loggedIn.subscribe(loggedIn => {
             this.loggedIn = loggedIn;
-        });
-        this.route.params.subscribe(params => {
-            if (params['id'] == 'neu') {
-                this.isNewStudiengang = true;
-                this.initializeEmptyFormGroup();
-            } else {
-                this.getStudiengangByIdAndInitializeFormGroup(params['id']);
-            }
+            this.route.params.subscribe(params => {
+                if (params['id'] == 'neu' && this.loggedIn) {
+                    this.isNewStudiengang = true;
+                    this.initializeEmptyFormGroup();
+                } else {
+                    this.getStudiengangByIdAndInitializeFormGroup(params['id']);
+                }
+            });
         });
     }
 
     private initializeEmptyFormGroup(): void {
-        if (this.loggedIn) {
-            this.formGroup = this.formBuilder.group({
-                title: ['', Validators.required],
-                degree: ['', Validators.required],
-                startDate: ['', Validators.required],
-                description: ['', Validators.required],
-                status: ['', Validators.required],
-            });
-            this.formGroup.valueChanges.subscribe(() => {
-                this.hasStudiengangChangedValidly =
-                    this.formGroup.dirty && this.formGroup.valid;
-            });
-        }
+        this.formGroup = this.formBuilder.group({
+            title: ['', Validators.required],
+            degree: ['', Validators.required],
+            startDate: ['', Validators.required],
+            description: ['', Validators.required],
+            status: ['', Validators.required],
+        });
+        this.formGroup.valueChanges.subscribe(() => {
+            this.hasStudiengangChangedValidly =
+                this.formGroup.dirty && this.formGroup.valid;
+        });
     }
 
     private getStudiengangByIdAndInitializeFormGroup(
