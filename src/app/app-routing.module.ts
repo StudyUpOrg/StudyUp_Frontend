@@ -29,7 +29,7 @@ const routes: Routes = [
         component: StudiengangOverviewComponent,
     },
     {
-        path: 'bewerbung/:id/status',
+        path: 'bewerbung/detail/:id/status',
         component: BewerbungStatusComponent,
     },
     {

@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
 import { StudiengangService } from 'src/app/services/studiengang/studiengang.service';
+import { map } from 'rxjs/operators';
+import { BewerbungLinkComponent } from '../bewerbung-link/bewerbung-link.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-bewerbung-detail',
@@ -16,9 +19,11 @@ export class BewerbungDetailComponent implements OnInit {
     public formGroup!: FormGroup;
     private uploadedFiles!: File[];
     public uploadedFileNames!: string;
-    public hasBewerbungChangedValidly: boolean = false;
+    public buttonActivated: boolean = false;
+    private bewerbungId!: number;
 
     constructor(
+        private dialog: MatDialog,
         private authService: AuthService,
         private route: ActivatedRoute,
         private studiengangService: StudiengangService,
@@ -50,7 +55,7 @@ export class BewerbungDetailComponent implements OnInit {
                     applicantLetter: ['', Validators.required],
                 });
                 this.formGroup.valueChanges.subscribe(() => {
-                    this.hasBewerbungChangedValidly =
+                    this.buttonActivated =
                         this.formGroup.dirty && this.formGroup.valid;
                 });
             });
@@ -76,40 +81,64 @@ export class BewerbungDetailComponent implements OnInit {
 
         this.bewerbungService.createBewerbung().subscribe(response => {
             if (response.applicationId) {
-                const bewerbungId = response.applicationId;
+                this.bewerbungId = response.applicationId;
                 this.bewerbungService
-                    .addInformationToBewerbung(bewerbungId, bewerbung)
+                    .addInformationToBewerbung(this.bewerbungId, bewerbung)
                     .subscribe(() => {
-                        this.uploadedFiles.map(file => {
-                            const formDataFile = new FormData();
-                            formDataFile.append('file', file, file.name);
-                            if (
-                                file ==
-                                this.uploadedFiles[
-                                    this.uploadedFiles.length - 1
-                                ]
-                            ) {
-                                this.bewerbungService
-                                    .addFileToBewerbung(
-                                        bewerbungId,
-                                        formDataFile
-                                    )
-                                    .subscribe(() => {
-                                        this.bewerbungService
-                                            .sendBewerbung(bewerbungId)
-                                            .subscribe();
-                                    });
-                            } else {
-                                this.bewerbungService
-                                    .addFileToBewerbung(
-                                        bewerbungId,
-                                        formDataFile
-                                    )
-                                    .subscribe();
-                            }
-                        });
+                        if (this.uploadedFiles) {
+                            this.uploadedFiles.map(file => {
+                                const formDataFile = new FormData();
+                                formDataFile.append('file', file, file.name);
+                                if (
+                                    file ==
+                                    this.uploadedFiles[
+                                        this.uploadedFiles.length - 1
+                                    ]
+                                ) {
+                                    this.bewerbungService
+                                        .addFileToBewerbung(
+                                            this.bewerbungId,
+                                            formDataFile
+                                        )
+                                        .subscribe(() => {
+                                            this.bewerbungService
+                                                .sendBewerbung(this.bewerbungId)
+                                                .subscribe(() => {
+                                                    this.buttonActivated =
+                                                        false;
+                                                    this.openLinkDialog();
+                                                });
+                                        });
+                                } else {
+                                    this.bewerbungService
+                                        .addFileToBewerbung(
+                                            this.bewerbungId,
+                                            formDataFile
+                                        )
+                                        .subscribe();
+                                }
+                            });
+                        } else {
+                            this.bewerbungService
+                                .sendBewerbung(this.bewerbungId)
+                                .subscribe(() =>
+                                    this.bewerbungService
+                                        .sendBewerbung(this.bewerbungId)
+                                        .subscribe(() => {
+                                            this.buttonActivated = false;
+                                            this.openLinkDialog();
+                                        })
+                                );
+                        }
                     });
             }
         });
+    }
+
+    private openLinkDialog(): void {
+        let dialogRef = this.dialog.open(BewerbungLinkComponent);
+        let instance = dialogRef.componentInstance;
+        instance.bewerbungId = this.bewerbungId;
+        dialogRef.afterClosed().subscribe();
     }
 }

@@ -1,25 +1,35 @@
 <mat-card class="content-card">
     <mat-card-title>Bewerbungsstatus</mat-card-title>
-    <mat-table #table [dataSource]="dataSource">
-        <ng-container matColumnDef="title">
+    <mat-table #table [dataSource]="bewerbung">
+        <ng-container matColumnDef="courseName">
             <mat-header-cell *matHeaderCellDef>Studiengang</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+                element.coursename
+            }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="receiptDate">
+            <mat-header-cell *matHeaderCellDef>Einreichdatum</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+                element.applicationreceiptdate | date : 'dd.MM.yyyy'
+            }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="firstName">
             <mat-header-cell *matHeaderCellDef>Vorname</mat-header-cell>
             <mat-cell *matCellDef="let element">{{
-                element.firstName
+                element.applicantfirstname
             }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="lastName">
             <mat-header-cell *matHeaderCellDef>Nachname</mat-header-cell>
             <mat-cell *matCellDef="let element">{{
-                element.lastName
+                element.applicantlastname
             }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.status }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+                element.applicationstatus
+            }}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
