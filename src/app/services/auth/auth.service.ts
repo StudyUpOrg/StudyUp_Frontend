@@ -1,48 +1,38 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
-    private loggedIn: ReplaySubject<boolean> = new ReplaySubject<boolean>();
+    public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+        false
+    );
     public $loggedIn: Observable<boolean> = this.loggedIn.asObservable();
 
     constructor(
         private http: HttpClient,
         private notificationService: NotificationService
-    ) {
-        this.loggedIn.next(false);
-    }
+    ) {}
 
     public login(username: string, password: string): void {
         this.http
-            .post<any>(this.BACKEND_URL + '/employee/login', {
+            .post<any>(environment.BACKEND_URL + '/employee/login', {
                 username: username,
                 password: password,
             })
             .subscribe(
                 response => {
-                    if (response.loggedIn == true) {
-                        localStorage.setItem('authToken', response.token);
-                        this.loggedIn.next(true);
-                        this.notificationService.displayNotification(
-                            'Du wurdest erfolgreich eingeloggt.'
-                        );
-                    } else {
-                        this.notificationService.displayNotification(
-                            'Deine Eingaben waren nicht korrekt.'
-                        );
-                    }
+                    localStorage.setItem('authToken', response.data.token);
+                    localStorage.setItem('username', username);
+                    this.loggedIn.next(true);
+                    this.notificationService.displayNotification(response.msg);
                 },
                 error => {
-                    this.notificationService.displayNotification(
-                        'Der Loginvorgang war nicht erfolgreich.'
-                    );
+                    this.notificationService.displayNotification(error.msg);
                 }
             );
     }
@@ -50,7 +40,7 @@ export class AuthService {
     public logout(): void {
         this.http
             .post<any>(
-                this.BACKEND_URL + '/employee/logout',
+                environment.BACKEND_URL + '/employee/logout',
                 {},
                 {
                     headers: new HttpHeaders({
@@ -60,22 +50,12 @@ export class AuthService {
             )
             .subscribe(
                 response => {
-                    if (response.loggedOut == true) {
-                        localStorage.removeItem('authToken');
-                        this.loggedIn.next(false);
-                        this.notificationService.displayNotification(
-                            'Du wurdest erfolgreich ausgeloggt.'
-                        );
-                    } else {
-                        this.notificationService.displayNotification(
-                            'Der Logoutvorgang war nicht erfolgreich.'
-                        );
-                    }
+                    localStorage.removeItem('authToken');
+                    this.loggedIn.next(false);
+                    this.notificationService.displayNotification(response.msg);
                 },
                 error => {
-                    this.notificationService.displayNotification(
-                        'Der Logoutvorgang war nicht erfolgreich.'
-                    );
+                    this.notificationService.displayNotification(error.msg);
                 }
             );
     }

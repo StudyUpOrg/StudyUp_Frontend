@@ -12,9 +12,9 @@ export class NavbarComponent {
     public loggedIn: boolean = false;
 
     constructor(public dialog: MatDialog, private authService: AuthService) {
-        this.authService.$loggedIn.subscribe(
-            loggedIn => (this.loggedIn = loggedIn)
-        );
+        this.authService.$loggedIn.subscribe(loggedIn => {
+            this.loggedIn = loggedIn;
+        });
     }
 
     public openLoginDialog(): void {

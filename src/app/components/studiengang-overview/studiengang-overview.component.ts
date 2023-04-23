@@ -45,16 +45,16 @@ export class StudiengangOverviewComponent implements OnInit {
     private getAllStudiengaengeEmployee(): void {
         this.studiengangService
             .getAllStudiengaengeEmployee()
-            .subscribe((studiengaenge: any) => {
-                this.studiengaenge = studiengaenge;
+            .subscribe((response: any) => {
+                this.studiengaenge = response.data;
             });
     }
 
     private getAllStudiengaengeVisitor(): void {
         this.studiengangService
             .getAllStudiengaengeVisitor()
-            .subscribe((studiengaenge: any) => {
-                this.studiengaenge = studiengaenge;
+            .subscribe((response: any) => {
+                this.studiengaenge = response.data;
             });
     }
 }

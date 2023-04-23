@@ -1,7 +1,5 @@
-<mat-card class="content-card" *ngIf="studiengang">
-    <mat-card-title *ngIf="!loggedIn">{{
-        studiengang.course_name
-    }}</mat-card-title>
+<mat-card class="content-card" *ngIf="studiengang || isNewStudiengang">
+    <mat-card-title *ngIf="!loggedIn">{{ studiengang.name }}</mat-card-title>
     <mat-card-title *ngIf="loggedIn && isNewStudiengang"
         >Studiengang hinzufügen</mat-card-title
     >
@@ -11,15 +9,16 @@
     <form [formGroup]="formGroup" class="vertical-align">
         <mat-form-field *ngIf="loggedIn" color="accent">
             <mat-label>Titel</mat-label>
-            <input matInput formControlName="title" />
+            <input matInput formControlName="name" />
         </mat-form-field>
         <mat-form-field color="accent">
             <mat-label>Abschlussart</mat-label>
-            <input matInput formControlName="degree" />
+            <input matInput formControlName="degreeName" />
         </mat-form-field>
         <mat-form-field color="accent">
             <mat-label>Startdatum</mat-label>
             <input
+                readonly
                 matInput
                 [matDatepicker]="picker"
                 formControlName="startDate" />
@@ -32,17 +31,50 @@
             <mat-label>Beschreibung</mat-label>
             <textarea matInput formControlName="description"> </textarea>
         </mat-form-field>
-        <mat-form-field color="accent" floatLabel="always" *ngIf="loggedIn">
+        <mat-form-field
+            class="bottom-margin"
+            color="accent"
+            floatLabel="always"
+            *ngIf="loggedIn && formGroup.contains('activated')">
             <mat-label>Status</mat-label>
-            <mat-slide-toggle formControlName="status">aktiv</mat-slide-toggle>
+            <mat-slide-toggle formControlName="activated"
+                >aktiv</mat-slide-toggle
+            >
             <input matInput hidden />
+            <mat-hint *ngIf="isNewStudiengang"
+                >Hinweis: Status muss initial einmal bearbeitet werden</mat-hint
+            >
         </mat-form-field>
     </form>
+    <mat-form-field
+        color="accent"
+        *ngIf="evaluationTemplates"
+        class="full-width">
+        <mat-select
+            [compareWith]="compareEvaluationTemplates"
+            [disabled]="evaluationTemplates.length === 0"
+            placeholder="Evaluationsbögen auswählen"
+            [(ngModel)]="selectedEvaluationTemplates"
+            multiple>
+            <mat-option
+                *ngFor="let template of evaluationTemplates"
+                [value]="template"
+                [disabled]="
+                    checkIfEvaluationTemplateWasAlreadySelected(template)
+                "
+                >{{ template.templateName }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
     <button
         *ngIf="loggedIn && !isNewStudiengang"
         mat-raised-button
         color="primary"
-        [disabled]="!hasStudiengangChangedValidly"
+        [disabled]="
+            !hasStudiengangChangedValidly &&
+            selectedEvaluationTemplates.length ===
+                oldSelectedEvaluationTemplates.length
+        "
         (click)="updateStudiengang()">
         Änderungen speichern
     </button>
@@ -58,7 +90,7 @@
         *ngIf="!loggedIn"
         mat-raised-button
         color="primary"
-        routerLink="/studiengang/detail/{{ studiengang.course_id }}/bewerben">
+        routerLink="/studiengang/detail/{{ studiengang.id }}/bewerben">
         Jetzt bewerben
     </button>
 </mat-card>

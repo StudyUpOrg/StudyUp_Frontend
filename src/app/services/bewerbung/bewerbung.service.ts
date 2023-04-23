@@ -1,60 +1,50 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NotificationService } from '../notification/notification.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class BewerbungService {
-    private BACKEND_URL: string = 'https://diedreiprojekt.pythonanywhere.com';
-
     constructor(private http: HttpClient) {}
 
-    public createBewerbung(): Observable<any> {
-        return this.http.post<number>(this.BACKEND_URL + '/visitor/apply', {});
-    }
-
-    public addInformationToBewerbung(
-        bewerbungId: number,
-        bewerbung: any
-    ): Observable<any> {
-        return this.http.put<any>(
-            this.BACKEND_URL + '/visitor/application/managemant/' + bewerbungId,
-            bewerbung
-        );
-    }
-
-    public addFileToBewerbung(
-        bewerbungId: number,
-        file: FormData
-    ): Observable<any> {
-        return this.http.post<any>(
-            this.BACKEND_URL + '/visitor/application/documents/' + bewerbungId,
-            file
-        );
-    }
-
-    public sendBewerbung(bewerbungId: number): Observable<any> {
-        return this.http.put<any>(
-            this.BACKEND_URL + '/visitor/application/send/' + bewerbungId,
+    public createBewerbung() {
+        return this.http.post<number>(
+            environment.BACKEND_URL + '/visitor/apply',
             {}
         );
     }
 
-    public getAllBewerbungen(): Observable<any> {
-        return this.http.get<any>(this.BACKEND_URL + '/employee/applications', {
-            headers: new HttpHeaders({
-                token: localStorage.getItem('authToken') || '',
-            }),
-        });
+    public addInformationToBewerbung(bewerbungId: number, bewerbung: any) {
+        return this.http.put<any>(
+            environment.BACKEND_URL +
+                '/visitor/application/managemant/' +
+                bewerbungId,
+            bewerbung
+        );
     }
 
-    public getBewerbungInformationById(bewerbungId: number): Observable<any> {
-        return this.http.get<any>(
-            this.BACKEND_URL +
-                '/employee/applications/information/' +
+    public addFileToBewerbung(bewerbungId: number, file: FormData) {
+        return this.http.post<any>(
+            environment.BACKEND_URL +
+                '/visitor/application/documents/' +
                 bewerbungId,
+            file
+        );
+    }
+
+    public sendBewerbung(bewerbungId: number) {
+        return this.http.put<any>(
+            environment.BACKEND_URL +
+                '/visitor/application/send/' +
+                bewerbungId,
+            {}
+        );
+    }
+
+    public getAllBewerbungen() {
+        return this.http.get<any>(
+            environment.BACKEND_URL + '/employee/applications',
             {
                 headers: new HttpHeaders({
                     token: localStorage.getItem('authToken') || '',
@@ -63,13 +53,12 @@ export class BewerbungService {
         );
     }
 
-    public getBewerbungFileInformationById(
-        bewerbungId: number
-    ): Observable<any> {
+    public getBewerbungInformationById(bewerbungId: number) {
         return this.http.get<any>(
-            this.BACKEND_URL +
-                '/employee/applications/files/information/' +
-                bewerbungId,
+            environment.BACKEND_URL +
+                '/employee/applications/' +
+                bewerbungId +
+                '/information',
             {
                 headers: new HttpHeaders({
                     token: localStorage.getItem('authToken') || '',
@@ -78,14 +67,55 @@ export class BewerbungService {
         );
     }
 
-    public getBewerbungFileById(fileId: number): Observable<any> {
+    public getBewerbungStatusById(bewerbungId: number) {
+        return this.http.get<any>(
+            environment.BACKEND_URL +
+                '/visitor/application/managemant/' +
+                bewerbungId
+        );
+    }
+
+    public getBewerbungFileInformationById(bewerbungId: number) {
+        return this.http.get<any>(
+            environment.BACKEND_URL +
+                '/employee/applications/' +
+                bewerbungId +
+                '/files',
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
+            }
+        );
+    }
+
+    public getBewerbungFileById(fileId: number) {
         return this.http.get(
-            this.BACKEND_URL + '/employee/applications/files/file/' + fileId,
+            environment.BACKEND_URL +
+                '/employee/files/applicationfile/' +
+                fileId,
             {
                 headers: new HttpHeaders({
                     token: localStorage.getItem('authToken') || '',
                 }),
                 responseType: 'blob',
+            }
+        );
+    }
+
+    public updateStatusOfBewerbungById(bewerbungId: number, statusId: number) {
+        return this.http.put(
+            environment.BACKEND_URL +
+                '/employee/applications/' +
+                bewerbungId +
+                '/information',
+            {
+                status: statusId,
+            },
+            {
+                headers: new HttpHeaders({
+                    token: localStorage.getItem('authToken') || '',
+                }),
             }
         );
     }

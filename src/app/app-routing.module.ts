@@ -9,6 +9,7 @@ import { StudiengangDetailComponent } from './components/studiengang-detail/stud
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/bewerbung-evaluation.component';
+import { EvaluationSheetOverviewComponent } from './components/evaluation-sheet-overview/evaluation-sheet-overview.component';
 
 const routes: Routes = [
     {
@@ -49,7 +50,11 @@ const routes: Routes = [
         component: StudiengangDetailComponent,
     },
     {
-        path: 'evaluationsbogen',
+        path: 'evaluationsbogen/übersicht',
+        component: EvaluationSheetOverviewComponent,
+    },
+    {
+        path: 'evaluationsbogen/erstellen',
         component: EvaluationSheetCreationComponent,
     },
 ];

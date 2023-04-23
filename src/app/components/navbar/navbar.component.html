@@ -3,7 +3,12 @@
     <a mat-button routerLink="/studiengang/übersicht">Studiengänge</a>
     <div *ngIf="loggedIn">
         <a mat-button routerLink="/bewerbung/übersicht">Bewerbungen</a>
-        <a mat-button routerLink="/evaluationsbogen">Evaluationsbögen</a>
+        <a mat-button routerLink="/evaluationsbogen/übersicht"
+            >Evaluationsbögen</a
+        >
+        <a mat-button routerLink="/evaluationsbogen/erstellen"
+            >Evaluationsbogen erstellen</a
+        >
     </div>
     <a class="fill-remaining-space"></a>
     <a *ngIf="loggedIn" mat-button routerLink="/konto">Konto</a>
