@@ -20,7 +20,7 @@ export default defineConfig({
   //fullyParallel: true,
   /* Retry on CI only */
   retries: 2,
-  timeout: 15000,
+  timeout: 10000,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
