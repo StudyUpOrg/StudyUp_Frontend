@@ -59,16 +59,19 @@ export class EvaluationSheetCreationComponent implements OnInit, OnDestroy {
     }
 
     private getAllStudiengaenge(): void {
-        this.studiengangService
-            .getAllStudiengaengeEmployee()
-            .subscribe((response: any) => {
+        this.studiengangService.getAllStudiengaengeEmployee().subscribe(
+            (response: any) => {
                 const studiengaenge = response.data;
                 studiengaenge.map(
                     (studiengang: { isSelected: boolean }) =>
                         (studiengang.isSelected = false)
                 );
                 this.studiengaenge = studiengaenge;
-            });
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     public createEvaluationSheet(): void {

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
     selector: 'app-bewerbung-status',
@@ -14,16 +15,25 @@ export class BewerbungStatusComponent implements OnInit, OnDestroy {
 
     constructor(
         private bewerbungService: BewerbungService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
         this.paramsSubscription = this.route.params.subscribe(params => {
             this.bewerbungService
                 .getBewerbungStatusById(params['id'])
-                .subscribe((response: any) => {
-                    this.bewerbungStatus = response.data.applicationStatusName;
-                });
+                .subscribe(
+                    (response: any) => {
+                        this.bewerbungStatus =
+                            response.data.applicationStatusName;
+                    },
+                    (error: any) => {
+                        this.notificationService.displayNotification(
+                            error.error.msg
+                        );
+                    }
+                );
         });
     }
 

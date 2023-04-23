@@ -5,6 +5,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
     selector: 'app-account',
@@ -21,6 +22,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthService,
         private accountService: AccountService,
+        private notificationService: NotificationService,
         private sanitizer: DomSanitizer,
         private formBuilder: FormBuilder
     ) {}
@@ -51,13 +53,16 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     private getProfilePicture() {
-        this.accountService
-            .getAccountProfilePicture()
-            .subscribe(profilePicture => {
+        this.accountService.getAccountProfilePicture().subscribe(
+            profilePicture => {
                 this.profilePicture = this.sanitizer.bypassSecurityTrustUrl(
                     URL.createObjectURL(profilePicture)
                 );
-            });
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     public updateProfilePicture(event: any) {
@@ -66,30 +71,62 @@ export class AccountComponent implements OnInit, OnDestroy {
         formDataPicture.append('file', picture, picture.name);
         this.accountService
             .updateAccountProfilePicture(formDataPicture)
-            .subscribe(() => {
-                this.getProfilePicture();
-            });
+            .subscribe(
+                (response: any) => {
+                    this.notificationService.displayNotification(response.msg);
+                    this.getProfilePicture();
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     public updateProfileInformation() {
         const password = this.formGroup.value.password;
         const username = this.formGroup.value.username;
         if (password) {
-            this.accountService
-                .updateAccountPassword(password)
-                .subscribe(() => {
+            this.accountService.updateAccountPassword(password).subscribe(
+                (response: any) => {
+                    this.notificationService.displayNotification(response.msg);
                     if (username != this.oldUsername) {
                         this.accountService
                             .updateAccountUsername(username)
-                            .subscribe(() =>
-                                this.authService.loggedIn.next(false)
+                            .subscribe(
+                                (response: any) => {
+                                    this.notificationService.displayNotification(
+                                        response.msg
+                                    );
+                                    this.authService.loggedIn.next(false);
+                                },
+                                (error: any) => {
+                                    this.notificationService.displayNotification(
+                                        error.msg
+                                    );
+                                }
                             );
                     }
-                });
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
         } else if (username != this.oldUsername) {
-            this.accountService
-                .updateAccountUsername(username)
-                .subscribe(() => this.authService.loggedIn.next(false));
+            this.accountService.updateAccountUsername(username).subscribe(
+                (response: any) => {
+                    this.notificationService.displayNotification(response.msg);
+                    this.authService.loggedIn.next(false);
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
         }
     }
 
