@@ -18,8 +18,11 @@ await page.getByLabel('Anschreiben *').click();
 await page.getByLabel('Anschreiben *').fill('Ich bin ein Playwright Test :D');
 await page.getByRole('button', { name: 'Bewerbung abschicken' }).click();
 await expect(page.getByText('Link zum Bewerbungsstatus')).toHaveText('Link zum Bewerbungsstatus')
+await page.locator('body').click();
+await page.locator('a').filter({ hasText: 'close' }).click();
 
 await page.locator('a').filter({ hasText: 'Login' }).click();
+
   await page.getByLabel('Nutzername *').fill('Justin');
   await page.getByLabel('Nutzername *').press('Tab');
   await page.getByLabel('Passwort *').fill('Justin!');
@@ -32,6 +35,6 @@ await page.locator('a').filter({ hasText: 'Login' }).click();
   await page.getByText('EingereichtStatus').click();
   await page.getByRole('option', { name: 'In Bearbeitung' }).click();
   await page.getByRole('button', { name: 'Status speichern' }).click();
-await expect(page.locator('snack-bar-container')).toHaveText('Der Status wurde erfolgreich aktualisiert')
+await expect(page.locator('snack-bar-container')).toHaveText('Der Bewerbungsstatus wurde erfolgreich aktualisiert')
 
 });
