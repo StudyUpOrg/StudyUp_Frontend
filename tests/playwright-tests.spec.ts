@@ -21,4 +21,5 @@ test('authentification', async ({ page }) => {
   await page.getByRole('button', { name: 'Abmelden' }).click();
 
   await expect(page.locator('snack-bar-container')).toHaveText('Du wurdest erfolgreich ausgeloggt.')
+  
 });
