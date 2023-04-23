@@ -1,8 +1,15 @@
 button {
-    width: fit-content;
+    width: 200px;
+}
+
+.pos-right {
     margin: 0 0 0 auto;
 }
 
-.button-space {
+.bottom-margin {
     margin-bottom: 16px;
+}
+
+.picture-input {
+    display: none;
 }

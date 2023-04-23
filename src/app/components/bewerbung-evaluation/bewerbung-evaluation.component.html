@@ -39,6 +39,7 @@
             <button
                 *ngFor="let file of bewerbung.files"
                 mat-raised-button
+                class="bottom-margin"
                 color="accent"
                 (click)="downloadBewerbungFile(file)">
                 {{ file.originalName }}
@@ -48,14 +49,14 @@
         <mat-tab-group class="column">
             <mat-tab label="Bestehene Evaluationen">
                 <div *ngFor="let evaluation of evaluationSheets">
-                    <h3>{{ evaluation.name }}</h3>
-                    <mat-table #table [dataSource]="evaluation.criterias">
+                    <h3>{{ evaluation.templateName }}</h3>
+                    <mat-table #table [dataSource]="evaluation.ratings">
                         <ng-container matColumnDef="criteria">
                             <mat-header-cell *matHeaderCellDef>
                                 Kriterium
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                {{ element.name }}
+                            <mat-cell *matCellDef="let criteria">
+                                {{ criteria.criteriaName }}
                             </mat-cell>
                         </ng-container>
 
@@ -63,8 +64,8 @@
                             <mat-header-cell *matHeaderCellDef>
                                 Bewertung (1-5)
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                {{ element.rating }}
+                            <mat-cell *matCellDef="let criteria">
+                                {{ criteria.rating }}
                             </mat-cell>
                         </ng-container>
 
@@ -79,7 +80,7 @@
                             "></mat-row>
                     </mat-table>
                     <p class="full-width top-margin">
-                        Feedback: {{ evaluation.criteriaFeedback }}
+                        Feedback: {{ evaluation.feedback }}
                     </p>
                 </div>
             </mat-tab>
@@ -88,25 +89,32 @@
                     color="accent"
                     class="top-margin full-width no-bottom">
                     <mat-select
+                        [disabled]="evaluationTemplates.length === 0"
                         placeholder="Evaluationsbogen"
-                        [(ngModel)]="selectedEvaluationTemplate">
+                        (selectionChange)="
+                            getEvaluationTemplateDetails(
+                                $event.value.evaluationTemplateId
+                            )
+                        ">
                         <mat-option
-                            *ngFor="let element of evaluationSheets"
-                            [value]="element"
-                            >{{ element.name }}</mat-option
+                            *ngFor="let template of evaluationTemplates"
+                            [value]="template"
+                            >{{ template.evaluationTemplateName }}</mat-option
                         >
                     </mat-select>
                 </mat-form-field>
                 <mat-table
                     #table
                     *ngIf="selectedEvaluationTemplate"
-                    [dataSource]="selectedEvaluationTemplate.criterias">
+                    [dataSource]="
+                        selectedEvaluationTemplate.sheetTemplate.ratings
+                    ">
                     <ng-container matColumnDef="criteria">
                         <mat-header-cell *matHeaderCellDef>
                             Kriterium
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let element">
-                            {{ element.name }}
+                        <mat-cell *matCellDef="let criteria; let i = index">
+                            {{ selectedEvaluationTemplate.criteriaNames[i] }}
                         </mat-cell>
                     </ng-container>
 
@@ -114,13 +122,14 @@
                         <mat-header-cell *matHeaderCellDef>
                             Bewertung (1-5)
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let element">
+                        <mat-cell *matCellDef="let criteria">
                             <input
+                                (input)="checkIfEvaluationTemplateIsFilled()"
                                 matInput
                                 type="number"
                                 min="1"
                                 max="5"
-                                [(ngModel)]="element.rating" />
+                                [(ngModel)]="criteria.rating" />
                         </mat-cell>
                     </ng-container>
 
@@ -140,13 +149,17 @@
                     <textarea
                         matInput
                         [(ngModel)]="
-                            selectedEvaluationTemplate.criteriaFeedback
+                            selectedEvaluationTemplate.sheetTemplate.feedback
                         "></textarea>
                 </mat-form-field>
                 <button
                     class="full-width top-margin bottom-margin"
                     mat-raised-button
                     color="accent"
+                    [disabled]="
+                        evaluationTemplates.length === 0 ||
+                        !evaluationTemplateIsFilled
+                    "
                     (click)="saveEvaluation()">
                     Bewertung speichern
                 </button>
@@ -158,14 +171,21 @@
         <mat-form-field color="accent" class="no-bottom">
             <mat-select
                 placeholder="Status"
-                [(ngModel)]="bewerbung.applicationstatus">
+                [(ngModel)]="bewerbung.applicationStatusName">
                 <mat-option
                     *ngFor="let status of statusList"
                     [value]="status"
+                    [disabled]="status === 'Eingereicht'"
                     >{{ status }}</mat-option
                 >
             </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary">Status speichern</button>
+        <button
+            [disabled]="oldStatus === bewerbung.applicationStatusName"
+            mat-raised-button
+            color="primary"
+            (click)="updateBewerbungStatus()">
+            Status speichern
+        </button>
     </div>
 </mat-card>

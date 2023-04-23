@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
 import { DownloadFileService } from 'src/app/services/download-file/download-file.service';
 import { EvaluationService } from 'src/app/services/evaluation/evaluation.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
     selector: 'app-bewerbung-evaluation',
@@ -13,118 +15,177 @@ import { EvaluationService } from 'src/app/services/evaluation/evaluation.servic
     styleUrls: ['./bewerbung-evaluation.component.scss'],
     providers: [DatePipe],
 })
-export class BewerbungEvaluationComponent implements OnInit {
+export class BewerbungEvaluationComponent implements OnInit, OnDestroy {
     public loggedIn!: boolean;
     public bewerbung!: any;
     public formGroup!: FormGroup;
     public evaluationSheets!: any[];
+    public evaluationTemplates!: any[];
     public selectedEvaluationTemplate!: any;
     public displayedColumns!: string[];
     public statusList!: string[];
+    public evaluationTemplateIsFilled!: boolean;
+    public oldStatus!: string;
+    private loggedInSubscription!: Subscription;
+    private paramsSubscription!: Subscription;
 
     constructor(
         private authService: AuthService,
         private route: ActivatedRoute,
-        private bewerbungService: BewerbungService,
         private formBuilder: FormBuilder,
         private datePipe: DatePipe,
+        private bewerbungService: BewerbungService,
         private downloadFileService: DownloadFileService,
-        private evaluationService: EvaluationService
+        private evaluationService: EvaluationService,
+        private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
-        this.evaluationSheets = [
-            {
-                name: 'Englischkenntnisse',
-                id: 1,
-                criterias: [
-                    {
-                        name: 'Leseverstehen',
-                        rating: 3,
-                    },
-                    {
-                        name: 'Hörverstehen',
-                        rating: 4,
-                    },
-                ],
-                criteriaFeedback: 'Der Mann kann Englisch. Top!',
-            },
-            {
-                name: 'IT-Kenntnisse',
-                id: 2,
-                criterias: [
-                    {
-                        name: 'Python',
-                        rating: 5,
-                    },
-                    {
-                        name: 'Java',
-                        rating: 3,
-                    },
-                ],
-                criteriaFeedback: 'Tiefgreifende Kenntnisse in Python!',
-            },
-        ];
+        this.evaluationTemplateIsFilled = false;
         this.statusList = [
-            'Angenommen',
-            'Abgelehnt',
-            'In Bearbeitung',
             'Eingereicht',
+            'In Bearbeitung',
+            'Abgelehnt',
+            'Zum Auswahlverfahren eingeladen',
+            'Angenommen',
         ];
         this.displayedColumns = ['criteria', 'rating'];
-        this.authService.$loggedIn.subscribe(loggedIn => {
-            this.loggedIn = loggedIn;
-            if (this.loggedIn) {
-                this.route.params.subscribe(params => {
-                    this.getBewerbung(params['id']);
-                    this.getEvaluationTemplates(params['id']);
-                });
+        this.loggedInSubscription = this.authService.$loggedIn.subscribe(
+            loggedIn => {
+                this.loggedIn = loggedIn;
+                if (this.loggedIn) {
+                    this.paramsSubscription = this.route.params.subscribe(
+                        params => {
+                            this.getBewerbung(params['id']);
+                            this.getEvaluationSheets(params['id']);
+                            this.getEvaluationTemplates(params['id']);
+                        }
+                    );
+                }
             }
-        });
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.loggedInSubscription.unsubscribe();
+        this.paramsSubscription.unsubscribe();
     }
 
     private getBewerbung(bewerbungId: number): void {
         this.bewerbungService
             .getBewerbungInformationById(bewerbungId)
-            .subscribe(bewerbung => {
-                this.bewerbung = bewerbung[0];
-                this.bewerbung.applicationreciptdate = this.datePipe.transform(
-                    this.bewerbung.applicationreciptdate,
+            .subscribe(response => {
+                this.bewerbung = response.data;
+                this.oldStatus = this.bewerbung.applicationStatusName;
+                this.bewerbung.applicationReciptDate = this.datePipe.transform(
+                    this.bewerbung.applicationReciptDate,
                     'dd.MM.yyyy'
                 );
                 this.bewerbungService
                     .getBewerbungFileInformationById(bewerbungId)
-                    .subscribe(files => {
-                        this.bewerbung.files = files;
+                    .subscribe(response => {
+                        this.bewerbung.files = response.data;
                         this.formGroup = this.formBuilder.group({
-                            applicantFirstName: [this.bewerbung.applicantname],
-                            applicantLastName: [this.bewerbung.applicantname],
-                            applicantMail: [this.bewerbung.applicantmail],
-                            applicantTelNo: [this.bewerbung.applicantelno],
-                            applicantLetter: [this.bewerbung.applicantletter],
-                            applicationReciptDate: [
-                                this.bewerbung.applicationreciptdate,
+                            applicantFirstName: [
+                                this.bewerbung.applicantFirstName,
                             ],
-                            courseName: [this.bewerbung.coursename],
+                            applicantLastName: [
+                                this.bewerbung.applicantLastName,
+                            ],
+                            applicantMail: [this.bewerbung.applicantMail],
+                            applicantTelNo: [this.bewerbung.applicantTelNo],
+                            applicantLetter: [this.bewerbung.applicantLetter],
+                            applicationReciptDate: [
+                                this.bewerbung.applicationReciptDate,
+                            ],
+                            courseName: [this.bewerbung.courseName],
                         });
                         this.formGroup.disable();
                     });
             });
     }
 
-    private getEvaluationTemplates(bewerbungId: number): void {
+    public getEvaluationTemplateDetails(templateId: number) {
         this.evaluationService
-            .getEvaluationTemplatesByBewerbungId(bewerbungId)
-            .subscribe();
+            .getEvaluationSheetDetailsByTemplateId(templateId)
+            .subscribe((response: any) => {
+                this.selectedEvaluationTemplate = response.data;
+                this.selectedEvaluationTemplate.templateId = templateId;
+            });
     }
 
-    public downloadBewerbungFile(file: any): void {
-        this.bewerbungService.getBewerbungFileById(file.id).subscribe(blob => {
-            this.downloadFileService.downloadFile(blob, file.originalName);
+    public checkIfEvaluationTemplateIsFilled() {
+        let isFilled: boolean = true;
+        this.selectedEvaluationTemplate.sheetTemplate.ratings.forEach(function (
+            criteria: any
+        ) {
+            if (!criteria.rating) {
+                isFilled = false;
+            }
         });
+        this.evaluationTemplateIsFilled = isFilled;
     }
 
-    public saveEvaluation(): void {
-        console.log('test');
+    private getEvaluationTemplates(bewerbungId: number) {
+        this.evaluationService
+            .getUnusedEvaluationTemplatesByBewerbungId(bewerbungId)
+            .subscribe((response: any) => {
+                this.evaluationTemplates = response.data;
+            });
+    }
+
+    private getEvaluationSheets(bewerbungId: number) {
+        this.evaluationService
+            .getEvaluationSheetsByBewerbungId(bewerbungId)
+            .subscribe((response: any) => {
+                this.evaluationSheets = response.data;
+            });
+    }
+
+    public downloadBewerbungFile(file: any) {
+        this.bewerbungService
+            .getBewerbungFileById(file.id)
+            .subscribe(response => {
+                this.downloadFileService.downloadFile(
+                    response,
+                    file.originalName
+                );
+            });
+    }
+
+    public saveEvaluation() {
+        this.evaluationService
+            .createEvaluation(
+                this.bewerbung.applicationId,
+                this.selectedEvaluationTemplate
+            )
+            .subscribe(
+                (response: any) => {
+                    this.getEvaluationSheets(this.bewerbung.applicationId);
+                    this.getEvaluationTemplates(this.bewerbung.applicationId);
+                    this.selectedEvaluationTemplate = undefined;
+                    this.notificationService.displayNotification(response.msg);
+                },
+                error => {
+                    this.notificationService.displayNotification(error.msg);
+                }
+            );
+    }
+
+    public updateBewerbungStatus() {
+        this.bewerbungService
+            .updateStatusOfBewerbungById(
+                this.bewerbung.applicationId,
+                this.statusList.indexOf(this.bewerbung.applicationStatusName) +
+                    1
+            )
+            .subscribe(
+                () => {
+                    this.oldStatus = this.bewerbung.applicationStatusName;
+                },
+                error => {
+                    this.notificationService.displayNotification(error.msg);
+                }
+            );
     }
 }

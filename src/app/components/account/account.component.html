@@ -1,30 +1,64 @@
-<mat-card class="content-card">
+<mat-card class="content-card" *ngIf="loggedIn">
     <div class="vertical-align">
         <mat-card-title>Kontoverwaltung</mat-card-title>
-        <mat-form-field color="accent">
-            <mat-label>Nutzername</mat-label>
-            <input matInput />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Passwort</mat-label>
-            <input type="password" matInput />
-        </mat-form-field>
-        <mat-form-field color="accent">
-            <mat-label>Passwort bestätigen</mat-label>
-            <input type="password" matInput />
-        </mat-form-field>
-        <button class="button-space" mat-raised-button color="accent">
-            Bild hochladen
-        </button>
-        <button class="button-space" mat-raised-button color="accent">
-            Änderungen speichern
-        </button>
-        <button
-            mat-raised-button
-            color="primary"
-            routerLink=""
-            (click)="logout()">
-            Abmelden
-        </button>
+        <form [formGroup]="formGroup" class="vertical-align">
+            <mat-form-field color="accent">
+                <mat-label>Nutzername</mat-label>
+                <input matInput formControlName="username" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Neues Passwort</mat-label>
+                <input type="password" matInput formControlName="password" />
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Neues Passwort bestätigen</mat-label>
+                <input
+                    type="password"
+                    matInput
+                    formControlName="passwordRepetition" />
+            </mat-form-field>
+        </form>
+        <div class="horizontal-align">
+            <div *ngIf="profilePicture" class="vertical-align">
+                <img class="bottom-margin" [src]="profilePicture" width="200" />
+                <input
+                    type="file"
+                    class="picture-input"
+                    (change)="updateProfilePicture($event)"
+                    #pictureUpload />
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="pictureUpload.click()">
+                    Profilbild ändern
+                </button>
+            </div>
+            <div class="vertical-align full-width">
+                <button
+                    [disabled]="
+                        !formGroup.valid ||
+                        formGroup.value.password !==
+                            formGroup.value.passwordRepetition ||
+                        (formGroup.valid &&
+                            formGroup.value.username === oldUsername &&
+                            !formGroup.value.password &&
+                            !formGroup.value.passwordRepetition)
+                    "
+                    class="bottom-margin pos-right"
+                    mat-raised-button
+                    color="accent"
+                    (click)="updateProfileInformation()">
+                    Änderungen speichern
+                </button>
+                <button
+                    class="pos-right"
+                    mat-raised-button
+                    color="primary"
+                    routerLink=""
+                    (click)="logout()">
+                    Abmelden
+                </button>
+            </div>
+        </div>
     </div>
 </mat-card>

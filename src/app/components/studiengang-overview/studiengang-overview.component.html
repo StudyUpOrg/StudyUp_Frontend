@@ -14,8 +14,8 @@
         <mat-table #table [dataSource]="studiengaenge">
             <ng-container matColumnDef="title">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{
-                    element.course_name
+                <mat-cell *matCellDef="let studiengang">{{
+                    studiengang.name
                 }}</mat-cell>
             </ng-container>
 
@@ -23,27 +23,25 @@
                 <mat-header-cell *matHeaderCellDef
                     >Abschlussart</mat-header-cell
                 >
-                <mat-cell *matCellDef="let element">{{
-                    element.degree_name
+                <mat-cell *matCellDef="let studiengang">{{
+                    studiengang.degreeName
                 }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="startDate">
                 <mat-header-cell *matHeaderCellDef>Startdatum</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{
-                    element.course_start_date | date : 'dd.MM.yyyy'
+                <mat-cell *matCellDef="let studiengang">{{
+                    studiengang.startDate | date : 'dd.MM.yyyy'
                 }}</mat-cell>
             </ng-container>
 
             <ng-container *ngIf="loggedIn" matColumnDef="active">
                 <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <span *ngIf="element.course_activated" class="status-active"
+                <mat-cell *matCellDef="let studiengang">
+                    <span *ngIf="studiengang.activated" class="status-active"
                         >aktiv</span
                     >
-                    <span
-                        *ngIf="!element.course_activated"
-                        class="status-inactive"
+                    <span *ngIf="!studiengang.activated" class="status-inactive"
                         >inaktiv</span
                     >
                 </mat-cell>
@@ -51,8 +49,8 @@
 
             <ng-container *ngIf="loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Bearbeiten</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/detail/{{ element.course_id }}">
+                <mat-cell *matCellDef="let studiengang">
+                    <a routerLink="/studiengang/detail/{{ studiengang.id }}">
                         <mat-icon color="accent">edit</mat-icon>
                     </a>
                 </mat-cell>
@@ -60,8 +58,8 @@
 
             <ng-container *ngIf="!loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <a routerLink="/studiengang/detail/{{ element.course_id }}">
+                <mat-cell *matCellDef="let studiengang">
+                    <a routerLink="/studiengang/detail/{{ studiengang.id }}">
                         <mat-icon color="accent">open_in_new</mat-icon>
                     </a>
                 </mat-cell>

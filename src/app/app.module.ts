@@ -34,6 +34,7 @@ import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewe
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
 import { BewerbungLinkComponent } from './components/bewerbung-link/bewerbung-link.component';
 import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/bewerbung-evaluation.component';
+import { EvaluationSheetOverviewComponent } from './components/evaluation-sheet-overview/evaluation-sheet-overview.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/
         EvaluationSheetCreationComponent,
         BewerbungLinkComponent,
         BewerbungEvaluationComponent,
+        EvaluationSheetOverviewComponent,
     ],
     imports: [
         BrowserModule,

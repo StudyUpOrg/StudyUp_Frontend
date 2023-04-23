@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
 
@@ -8,7 +9,7 @@ import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
     templateUrl: './bewerbung-overview.component.html',
     styleUrls: ['./bewerbung-overview.component.scss'],
 })
-export class BewerbungOverviewComponent implements OnInit {
+export class BewerbungOverviewComponent implements OnInit, OnDestroy {
     public loggedIn!: boolean;
     public studiengangForm!: FormControl;
     public statusForm!: FormControl;
@@ -17,6 +18,7 @@ export class BewerbungOverviewComponent implements OnInit {
     public studiengangNames!: Set<string>;
     public statusNames!: Set<string>;
     private bewerbungen!: any[];
+    private loggedInSubscription!: Subscription;
 
     constructor(
         private authService: AuthService,
@@ -32,28 +34,34 @@ export class BewerbungOverviewComponent implements OnInit {
             'status',
             'link',
         ];
-        this.authService.$loggedIn.subscribe(loggedIn => {
-            this.loggedIn = loggedIn;
-            if (loggedIn) {
-                this.bewerbungService
-                    .getAllBewerbungen()
-                    .subscribe(bewerbungen => {
-                        this.bewerbungen = bewerbungen;
-                        this.displayedBewerbungen = bewerbungen;
-                        this.studiengangNames = new Set(
-                            this.bewerbungen.map(
-                                bewerbung => bewerbung.coursename
-                            )
-                        );
-                        this.statusNames = new Set(
-                            this.bewerbungen.map(
-                                bewerbung => bewerbung.applicationstatus
-                            )
-                        );
-                        this.studiengangForm = new FormControl();
-                        this.statusForm = new FormControl();
-                    });
+        this.loggedInSubscription = this.authService.$loggedIn.subscribe(
+            loggedIn => {
+                this.loggedIn = loggedIn;
+                if (loggedIn) {
+                    this.getBewerbungen();
+                }
             }
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.loggedInSubscription.unsubscribe();
+    }
+
+    private getBewerbungen() {
+        this.bewerbungService.getAllBewerbungen().subscribe((response: any) => {
+            this.bewerbungen = response.data;
+            this.displayedBewerbungen = this.bewerbungen;
+            this.studiengangNames = new Set(
+                this.bewerbungen.map(bewerbung => bewerbung.courseName)
+            );
+            this.statusNames = new Set(
+                this.bewerbungen.map(
+                    bewerbung => bewerbung.applicationStatusName
+                )
+            );
+            this.studiengangForm = new FormControl();
+            this.statusForm = new FormControl();
         });
     }
 
@@ -68,8 +76,8 @@ export class BewerbungOverviewComponent implements OnInit {
         ) {
             this.displayedBewerbungen = this.bewerbungen.filter(
                 bewerbung =>
-                    selectedStudiengang.includes(bewerbung.coursename) &&
-                    selectedStatus.includes(bewerbung.applicationstatus)
+                    selectedStudiengang.includes(bewerbung.courseName) &&
+                    selectedStatus.includes(bewerbung.applicationStatusName)
             );
         } else if (
             selectedStudiengang &&
@@ -77,7 +85,7 @@ export class BewerbungOverviewComponent implements OnInit {
             (!selectedStatus || selectedStatus.length == 0)
         ) {
             this.displayedBewerbungen = this.bewerbungen.filter(bewerbung =>
-                selectedStudiengang.includes(bewerbung.coursename)
+                selectedStudiengang.includes(bewerbung.courseName)
             );
         } else if (
             (!selectedStudiengang || selectedStudiengang.length == 0) &&
@@ -85,7 +93,7 @@ export class BewerbungOverviewComponent implements OnInit {
             selectedStatus.length > 0
         ) {
             this.displayedBewerbungen = this.bewerbungen.filter(bewerbung =>
-                selectedStatus.includes(bewerbung.applicationstatus)
+                selectedStatus.includes(bewerbung.applicationStatusName)
             );
         } else {
             this.displayedBewerbungen = this.bewerbungen;
