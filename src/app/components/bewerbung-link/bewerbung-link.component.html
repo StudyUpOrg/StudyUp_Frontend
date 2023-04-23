@@ -1,0 +1,13 @@
+<div class="vertical-align">
+    <div class="horizontal-align">
+        <mat-card-title>Link zum Bewerbungsstatus</mat-card-title>
+        <a class="pos-right" mat-dialog-close>
+            <mat-icon color="accent">close</mat-icon>
+        </a>
+    </div>
+    Deine Bewerbung ist erfolgreich bei uns eingegangen. Unter folgendem Link
+    kannst du ab jetzt den Status deiner Bewerbung abfragen: <br />
+    <a mat-dialog-close routerLink="/bewerbung/{{ bewerbungId }}/status">{{
+        bewerbungLink
+    }}</a>
+</div>

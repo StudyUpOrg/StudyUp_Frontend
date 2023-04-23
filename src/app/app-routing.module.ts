@@ -3,15 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
 import { BewerbungStatusComponent } from './components/bewerbung-status/bewerbung-status.component';
 import { BewerbungDetailComponent } from './components/bewerbung-detail/bewerbung-detail.component';
+import { BewerbungOverviewComponent } from './components/bewerbung-overview/bewerbung-overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudiengangDetailComponent } from './components/studiengang-detail/studiengang-detail.component';
 import { StudiengangOverviewComponent } from './components/studiengang-overview/studiengang-overview.component';
 import { EvaluationSheetCreationComponent } from './components/evaluation-sheet-creation/evaluation-sheet-creation.component';
+import { BewerbungEvaluationComponent } from './components/bewerbung-evaluation/bewerbung-evaluation.component';
+import { EvaluationSheetOverviewComponent } from './components/evaluation-sheet-overview/evaluation-sheet-overview.component';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'studiengang/übersicht',
+        redirectTo: '/studiengang/übersicht',
         pathMatch: 'full',
     },
     {
@@ -31,15 +34,27 @@ const routes: Routes = [
         component: BewerbungStatusComponent,
     },
     {
-        path: 'studiengang/detail/:id/bewerben',
+        path: 'bewerbung/übersicht',
+        component: BewerbungOverviewComponent,
+    },
+    {
+        path: 'bewerbung/:id/bewertung',
+        component: BewerbungEvaluationComponent,
+    },
+    {
+        path: 'studiengang/:id/bewerben',
         component: BewerbungDetailComponent,
     },
     {
-        path: 'studiengang/detail/:id',
+        path: 'studiengang/:id',
         component: StudiengangDetailComponent,
     },
     {
-        path: 'evaluationsbogen',
+        path: 'evaluationsbogen/übersicht',
+        component: EvaluationSheetOverviewComponent,
+    },
+    {
+        path: 'evaluationsbogen/erstellen',
         component: EvaluationSheetCreationComponent,
     },
 ];

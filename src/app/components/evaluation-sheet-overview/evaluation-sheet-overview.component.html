@@ -1,0 +1,21 @@
+<mat-card class="content-card" *ngIf="loggedIn && evaluationTemplates">
+    <mat-card-title>Übersicht der Evaluationsbögen</mat-card-title>
+    <mat-form-field color="accent" class="full-width">
+        <mat-select
+            [disabled]="evaluationTemplates.length === 0"
+            placeholder="Evaluationsbogen"
+            (selectionChange)="getEvaluationTemplateDetails($event.value.id)">
+            <mat-option
+                *ngFor="let template of evaluationTemplates"
+                [value]="template"
+                >{{ template.templateName }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+    <mat-list *ngIf="selectedEvaluationTemplate" class="full-width">
+        <mat-list-item *ngFor="let criteria of selectedEvaluationTemplate">
+            <mat-icon color="accent">label</mat-icon>
+            {{ criteria.criteriaName }}</mat-list-item
+        >
+    </mat-list>
+</mat-card>

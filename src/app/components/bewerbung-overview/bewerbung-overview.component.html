@@ -1,0 +1,84 @@
+<mat-card class="content-card" *ngIf="loggedIn && displayedBewerbungen">
+    <div class="horizontal-align max-width">
+        <mat-card-title>Übersicht der Bewerbungen</mat-card-title>
+        <div class="pos-right">
+            <mat-form-field color="accent">
+                <mat-select
+                    placeholder="Studiengang"
+                    [formControl]="studiengangForm"
+                    (selectionChange)="updateBewerbungFilter()"
+                    multiple>
+                    <mat-option
+                        *ngFor="let studiengang of studiengangNames"
+                        [value]="studiengang"
+                        >{{ studiengang }}</mat-option
+                    >
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-select
+                    placeholder="Status"
+                    [formControl]="statusForm"
+                    (selectionChange)="updateBewerbungFilter()"
+                    multiple>
+                    <mat-option
+                        *ngFor="let status of statusNames"
+                        [value]="status"
+                        >{{ status }}</mat-option
+                    >
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-card-content>
+        <mat-table #table [dataSource]="displayedBewerbungen">
+            <ng-container matColumnDef="courseName">
+                <mat-header-cell *matHeaderCellDef>Studiengang</mat-header-cell>
+                <mat-cell *matCellDef="let bewerbung">{{
+                    bewerbung.courseName
+                }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="receiptDate">
+                <mat-header-cell *matHeaderCellDef
+                    >Einreichdatum</mat-header-cell
+                >
+                <mat-cell *matCellDef="let bewerbung">{{
+                    bewerbung.applicationReceiptDate | date : 'dd.MM.yyyy'
+                }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell *matHeaderCellDef>Vorname</mat-header-cell>
+                <mat-cell *matCellDef="let bewerbung">{{
+                    bewerbung.applicantFirstname
+                }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef>Nachname</mat-header-cell>
+                <mat-cell *matCellDef="let bewerbung">{{
+                    bewerbung.applicantLastname
+                }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let bewerbung">{{
+                    bewerbung.applicationStatusName
+                }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="link">
+                <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+                <mat-cell *matCellDef="let bewerbung">
+                    <a
+                        routerLink="/bewerbung/{{
+                            bewerbung.applicationId
+                        }}/bewertung">
+                        <mat-icon color="accent">rate_review</mat-icon>
+                    </a>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+                *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </mat-card-content>
+</mat-card>
