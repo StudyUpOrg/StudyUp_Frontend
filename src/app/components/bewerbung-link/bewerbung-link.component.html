@@ -7,5 +7,7 @@
     </div>
     Deine Bewerbung ist erfolgreich bei uns eingegangen. Unter folgendem Link
     kannst du ab jetzt den Status deiner Bewerbung abfragen: <br />
-    {{ bewerbungLink }}
+    <a mat-dialog-close routerLink="/bewerbung/{{ bewerbungId }}/status">{{
+        bewerbungLink
+    }}</a>
 </div>
