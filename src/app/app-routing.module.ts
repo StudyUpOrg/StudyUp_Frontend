@@ -14,7 +14,7 @@ import { EvaluationSheetOverviewComponent } from './components/evaluation-sheet-
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'studiengang/übersicht',
+        redirectTo: '/studiengang/übersicht',
         pathMatch: 'full',
     },
     {
@@ -30,7 +30,7 @@ const routes: Routes = [
         component: StudiengangOverviewComponent,
     },
     {
-        path: 'bewerbung/detail/:id/status',
+        path: 'bewerbung/:id/status',
         component: BewerbungStatusComponent,
     },
     {
@@ -42,11 +42,11 @@ const routes: Routes = [
         component: BewerbungEvaluationComponent,
     },
     {
-        path: 'studiengang/detail/:id/bewerben',
+        path: 'studiengang/:id/bewerben',
         component: BewerbungDetailComponent,
     },
     {
-        path: 'studiengang/detail/:id',
+        path: 'studiengang/:id',
         component: StudiengangDetailComponent,
     },
     {
