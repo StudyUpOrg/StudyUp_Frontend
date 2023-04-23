@@ -44,20 +44,27 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
     private getStudiengangAndInitializeFormGroup(studiengangId: number): void {
         this.studiengangService
             .getStudiengangByIdVisitor(studiengangId)
-            .subscribe((reponse: any) => {
-                this.studiengang = reponse.data;
-                this.formGroup = this.formBuilder.group({
-                    applicantFirstName: ['', Validators.required],
-                    applicantLastName: ['', Validators.required],
-                    applicantMail: ['', Validators.required],
-                    applicantTelNo: ['', Validators.required],
-                    applicantLetter: ['', Validators.required],
-                });
-                this.formGroup.valueChanges.subscribe(() => {
-                    this.buttonActivated =
-                        this.formGroup.dirty && this.formGroup.valid;
-                });
-            });
+            .subscribe(
+                (reponse: any) => {
+                    this.studiengang = reponse.data;
+                    this.formGroup = this.formBuilder.group({
+                        applicantFirstName: ['', Validators.required],
+                        applicantLastName: ['', Validators.required],
+                        applicantMail: ['', Validators.required],
+                        applicantTelNo: ['', Validators.required],
+                        applicantLetter: ['', Validators.required],
+                    });
+                    this.formGroup.valueChanges.subscribe(() => {
+                        this.buttonActivated =
+                            this.formGroup.dirty && this.formGroup.valid;
+                    });
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     public onFilesSelected(event: any): void {
@@ -74,12 +81,17 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
     }
 
     private createBewerbung(bewerbung: any) {
-        this.bewerbungService.createBewerbung().subscribe((response: any) => {
-            if (response.data.applicationId) {
-                this.bewerbungId = response.data.applicationId;
-                this.addInformationToBewerbung(bewerbung);
+        this.bewerbungService.createBewerbung().subscribe(
+            (response: any) => {
+                if (response.data.applicationId) {
+                    this.bewerbungId = response.data.applicationId;
+                    this.addInformationToBewerbung(bewerbung);
+                }
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
             }
-        });
+        );
     }
 
     private addInformationToBewerbung(bewerbung: any) {
@@ -90,7 +102,9 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
                     this.addFilesToBewerbung();
                 },
                 (error: any) => {
-                    this.notificationService.displayNotification(error.msg);
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
                 }
             );
     }
@@ -131,7 +145,9 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
                     }
                 },
                 (error: any) => {
-                    this.notificationService.displayNotification(error.msg);
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
                 }
             );
         } else {
@@ -149,10 +165,16 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
     }
 
     private sendBewerbungEnd() {
-        this.bewerbungService.sendBewerbung(this.bewerbungId).subscribe(() => {
-            this.buttonActivated = false;
-            this.openLinkDialog();
-        });
+        this.bewerbungService.sendBewerbung(this.bewerbungId).subscribe(
+            (response: any) => {
+                this.notificationService.displayNotification(response.msg);
+                this.buttonActivated = false;
+                this.openLinkDialog();
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     private openLinkDialog(): void {

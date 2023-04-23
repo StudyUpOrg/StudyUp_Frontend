@@ -90,63 +90,80 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
         if (!this.loggedIn) {
             this.studiengangService
                 .getStudiengangByIdVisitor(studiengangId)
-                .subscribe((reponse: any) => {
-                    this.studiengang = reponse.data;
-                    this.formGroup = this.formBuilder.group({
-                        name: [this.studiengang.name, Validators.required],
-                        degreeName: [
-                            this.studiengang.degreeName,
-                            Validators.required,
-                        ],
-                        startDate: [
-                            this.studiengang.startDate,
-                            Validators.required,
-                        ],
-                        description: [
-                            this.studiengang.description,
-                            Validators.required,
-                        ],
-                    });
-                    this.formGroup.disable();
-                });
+                .subscribe(
+                    (reponse: any) => {
+                        this.studiengang = reponse.data;
+                        this.formGroup = this.formBuilder.group({
+                            name: [this.studiengang.name, Validators.required],
+                            degreeName: [
+                                this.studiengang.degreeName,
+                                Validators.required,
+                            ],
+                            startDate: [
+                                this.studiengang.startDate,
+                                Validators.required,
+                            ],
+                            description: [
+                                this.studiengang.description,
+                                Validators.required,
+                            ],
+                        });
+                        this.formGroup.disable();
+                    },
+                    (error: any) => {
+                        this.notificationService.displayNotification(
+                            error.error.msg
+                        );
+                    }
+                );
         } else {
             this.studiengangService
                 .getStudiengangByIdEmployee(studiengangId)
-                .subscribe((response: any) => {
-                    this.studiengang = response.data;
-                    this.formGroup = this.formBuilder.group({
-                        name: [this.studiengang.name, Validators.required],
-                        degreeName: [
-                            this.studiengang.degreeName,
-                            Validators.required,
-                        ],
-                        startDate: [
-                            this.studiengang.startDate,
-                            Validators.required,
-                        ],
-                        description: [
-                            this.studiengang.description,
-                            Validators.required,
-                        ],
-                        activated: [
-                            this.studiengang.activated,
-                            Validators.required,
-                        ],
-                    });
-                    this.formGroup.valueChanges.subscribe(() => {
-                        this.hasStudiengangChangedValidly =
-                            this.formGroup.dirty && this.formGroup.valid;
-                    });
-                });
+                .subscribe(
+                    (response: any) => {
+                        this.studiengang = response.data;
+                        this.formGroup = this.formBuilder.group({
+                            name: [this.studiengang.name, Validators.required],
+                            degreeName: [
+                                this.studiengang.degreeName,
+                                Validators.required,
+                            ],
+                            startDate: [
+                                this.studiengang.startDate,
+                                Validators.required,
+                            ],
+                            description: [
+                                this.studiengang.description,
+                                Validators.required,
+                            ],
+                            activated: [
+                                this.studiengang.activated,
+                                Validators.required,
+                            ],
+                        });
+                        this.formGroup.valueChanges.subscribe(() => {
+                            this.hasStudiengangChangedValidly =
+                                this.formGroup.dirty && this.formGroup.valid;
+                        });
+                    },
+                    (error: any) => {
+                        this.notificationService.displayNotification(
+                            error.error.msg
+                        );
+                    }
+                );
         }
     }
 
     private getAllEvaluationTemplates() {
-        this.evaluationService
-            .getAllEvaluationTemplates()
-            .subscribe((response: any) => {
+        this.evaluationService.getAllEvaluationTemplates().subscribe(
+            (response: any) => {
                 this.evaluationTemplates = response.data;
-            });
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     private getEvaluationTemplatesByStudiengangId(studiengangId: number) {
@@ -170,7 +187,9 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
                         this.selectedEvaluationTemplates;
                 },
                 (error: any) => {
-                    console.log(error);
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
                 }
             );
     }
@@ -184,7 +203,18 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
                         template => template.id
                     )
                 )
-                .subscribe();
+                .subscribe(
+                    (response: any) => {
+                        this.notificationService.displayNotification(
+                            response.msg
+                        );
+                    },
+                    (error: any) => {
+                        this.notificationService.displayNotification(
+                            error.error.msg
+                        );
+                    }
+                );
         } else {
             this.evaluationService
                 .addEvaluationTemplatesToStudiengangById(
@@ -198,7 +228,18 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
                                 )
                         )
                 )
-                .subscribe();
+                .subscribe(
+                    (response: any) => {
+                        this.notificationService.displayNotification(
+                            response.msg
+                        );
+                    },
+                    (error: any) => {
+                        this.notificationService.displayNotification(
+                            error.error.msg
+                        );
+                    }
+                );
         }
     }
 
@@ -222,7 +263,7 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
                 this.notificationService.displayNotification(response.msg);
             },
             (error: any) => {
-                this.notificationService.displayNotification(error.msg);
+                this.notificationService.displayNotification(error.error.msg);
             }
         );
     }
@@ -231,11 +272,13 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
         this.studiengang = this.formGroup.value;
         this.studiengangService.createStudiengang(this.studiengang).subscribe(
             (response: any) => {
+                this.formGroup.reset();
+                this.selectedEvaluationTemplates = [];
                 this.addEvaluationTemplates(response.data.courseId);
                 this.notificationService.displayNotification(response.msg);
             },
             (error: any) => {
-                this.notificationService.displayNotification(error.msg);
+                this.notificationService.displayNotification(error.error.msg);
             }
         );
     }
