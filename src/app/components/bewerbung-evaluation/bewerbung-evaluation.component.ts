@@ -74,44 +74,72 @@ export class BewerbungEvaluationComponent implements OnInit, OnDestroy {
     private getBewerbung(bewerbungId: number): void {
         this.bewerbungService
             .getBewerbungInformationById(bewerbungId)
-            .subscribe(response => {
-                this.bewerbung = response.data;
-                this.oldStatus = this.bewerbung.applicationStatusName;
-                this.bewerbung.applicationReciptDate = this.datePipe.transform(
-                    this.bewerbung.applicationReciptDate,
-                    'dd.MM.yyyy'
-                );
-                this.bewerbungService
-                    .getBewerbungFileInformationById(bewerbungId)
-                    .subscribe(response => {
-                        this.bewerbung.files = response.data;
-                        this.formGroup = this.formBuilder.group({
-                            applicantFirstName: [
-                                this.bewerbung.applicantFirstName,
-                            ],
-                            applicantLastName: [
-                                this.bewerbung.applicantLastName,
-                            ],
-                            applicantMail: [this.bewerbung.applicantMail],
-                            applicantTelNo: [this.bewerbung.applicantTelNo],
-                            applicantLetter: [this.bewerbung.applicantLetter],
-                            applicationReciptDate: [
-                                this.bewerbung.applicationReciptDate,
-                            ],
-                            courseName: [this.bewerbung.courseName],
-                        });
-                        this.formGroup.disable();
-                    });
-            });
+            .subscribe(
+                response => {
+                    this.bewerbung = response.data;
+                    this.oldStatus = this.bewerbung.applicationStatusName;
+                    this.bewerbung.applicationReciptDate =
+                        this.datePipe.transform(
+                            this.bewerbung.applicationReciptDate,
+                            'dd.MM.yyyy'
+                        );
+                    this.bewerbungService
+                        .getBewerbungFileInformationById(bewerbungId)
+                        .subscribe(
+                            response => {
+                                this.bewerbung.files = response.data;
+                                this.formGroup = this.formBuilder.group({
+                                    applicantFirstName: [
+                                        this.bewerbung.applicantFirstName,
+                                    ],
+                                    applicantLastName: [
+                                        this.bewerbung.applicantLastName,
+                                    ],
+                                    applicantMail: [
+                                        this.bewerbung.applicantMail,
+                                    ],
+                                    applicantTelNo: [
+                                        this.bewerbung.applicantTelNo,
+                                    ],
+                                    applicantLetter: [
+                                        this.bewerbung.applicantLetter,
+                                    ],
+                                    applicationReciptDate: [
+                                        this.bewerbung.applicationReciptDate,
+                                    ],
+                                    courseName: [this.bewerbung.courseName],
+                                });
+                                this.formGroup.disable();
+                            },
+                            (error: any) => {
+                                this.notificationService.displayNotification(
+                                    error.msg
+                                );
+                            }
+                        );
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     public getEvaluationTemplateDetails(templateId: number) {
         this.evaluationService
             .getEvaluationSheetDetailsByTemplateId(templateId)
-            .subscribe((response: any) => {
-                this.selectedEvaluationTemplate = response.data;
-                this.selectedEvaluationTemplate.templateId = templateId;
-            });
+            .subscribe(
+                (response: any) => {
+                    this.selectedEvaluationTemplate = response.data;
+                    this.selectedEvaluationTemplate.templateId = templateId;
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     public checkIfEvaluationTemplateIsFilled() {
@@ -129,28 +157,45 @@ export class BewerbungEvaluationComponent implements OnInit, OnDestroy {
     private getEvaluationTemplates(bewerbungId: number) {
         this.evaluationService
             .getUnusedEvaluationTemplatesByBewerbungId(bewerbungId)
-            .subscribe((response: any) => {
-                this.evaluationTemplates = response.data;
-            });
+            .subscribe(
+                (response: any) => {
+                    this.evaluationTemplates = response.data;
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     private getEvaluationSheets(bewerbungId: number) {
         this.evaluationService
             .getEvaluationSheetsByBewerbungId(bewerbungId)
-            .subscribe((response: any) => {
-                this.evaluationSheets = response.data;
-            });
+            .subscribe(
+                (response: any) => {
+                    this.evaluationSheets = response.data;
+                },
+                (error: any) => {
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
+                }
+            );
     }
 
     public downloadBewerbungFile(file: any) {
-        this.bewerbungService
-            .getBewerbungFileById(file.id)
-            .subscribe(response => {
+        this.bewerbungService.getBewerbungFileById(file.id).subscribe(
+            response => {
                 this.downloadFileService.downloadFile(
                     response,
                     file.originalName
                 );
-            });
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     public saveEvaluation() {
@@ -167,7 +212,9 @@ export class BewerbungEvaluationComponent implements OnInit, OnDestroy {
                     this.notificationService.displayNotification(response.msg);
                 },
                 error => {
-                    this.notificationService.displayNotification(error.msg);
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
                 }
             );
     }
@@ -180,11 +227,14 @@ export class BewerbungEvaluationComponent implements OnInit, OnDestroy {
                     1
             )
             .subscribe(
-                () => {
+                (response: any) => {
+                    this.notificationService.displayNotification(response.msg);
                     this.oldStatus = this.bewerbung.applicationStatusName;
                 },
                 error => {
-                    this.notificationService.displayNotification(error.msg);
+                    this.notificationService.displayNotification(
+                        error.error.msg
+                    );
                 }
             );
     }

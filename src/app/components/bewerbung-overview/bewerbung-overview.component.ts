@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BewerbungService } from 'src/app/services/bewerbung/bewerbung.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
     selector: 'app-bewerbung-overview',
@@ -22,7 +23,8 @@ export class BewerbungOverviewComponent implements OnInit, OnDestroy {
 
     constructor(
         private authService: AuthService,
-        private bewerbungService: BewerbungService
+        private bewerbungService: BewerbungService,
+        private notificationService: NotificationService
     ) {}
 
     ngOnInit(): void {
@@ -49,20 +51,25 @@ export class BewerbungOverviewComponent implements OnInit, OnDestroy {
     }
 
     private getBewerbungen() {
-        this.bewerbungService.getAllBewerbungen().subscribe((response: any) => {
-            this.bewerbungen = response.data;
-            this.displayedBewerbungen = this.bewerbungen;
-            this.studiengangNames = new Set(
-                this.bewerbungen.map(bewerbung => bewerbung.courseName)
-            );
-            this.statusNames = new Set(
-                this.bewerbungen.map(
-                    bewerbung => bewerbung.applicationStatusName
-                )
-            );
-            this.studiengangForm = new FormControl();
-            this.statusForm = new FormControl();
-        });
+        this.bewerbungService.getAllBewerbungen().subscribe(
+            (response: any) => {
+                this.bewerbungen = response.data;
+                this.displayedBewerbungen = this.bewerbungen;
+                this.studiengangNames = new Set(
+                    this.bewerbungen.map(bewerbung => bewerbung.courseName)
+                );
+                this.statusNames = new Set(
+                    this.bewerbungen.map(
+                        bewerbung => bewerbung.applicationStatusName
+                    )
+                );
+                this.studiengangForm = new FormControl();
+                this.statusForm = new FormControl();
+            },
+            (error: any) => {
+                this.notificationService.displayNotification(error.error.msg);
+            }
+        );
     }
 
     public updateBewerbungFilter(): void {
