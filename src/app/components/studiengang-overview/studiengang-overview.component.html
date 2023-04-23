@@ -6,7 +6,7 @@
             mat-raised-button
             class="pos-right"
             color="accent"
-            routerLink="/studiengang/detail/neu">
+            routerLink="/studiengang/neu">
             Studiengang hinzufügen
         </button>
     </div>
@@ -50,7 +50,7 @@
             <ng-container *ngIf="loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Bearbeiten</mat-header-cell>
                 <mat-cell *matCellDef="let studiengang">
-                    <a routerLink="/studiengang/detail/{{ studiengang.id }}">
+                    <a routerLink="/studiengang/{{ studiengang.id }}">
                         <mat-icon color="accent">edit</mat-icon>
                     </a>
                 </mat-cell>
@@ -59,7 +59,7 @@
             <ng-container *ngIf="!loggedIn" matColumnDef="link">
                 <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
                 <mat-cell *matCellDef="let studiengang">
-                    <a routerLink="/studiengang/detail/{{ studiengang.id }}">
+                    <a routerLink="/studiengang/{{ studiengang.id }}">
                         <mat-icon color="accent">open_in_new</mat-icon>
                     </a>
                 </mat-cell>

@@ -14,7 +14,7 @@ export class BewerbungLinkComponent implements OnInit {
     ngOnInit(): void {
         this.bewerbungLink =
             window.location.origin +
-            '/bewerbung/detail/' +
+            '/bewerbung/' +
             this.bewerbungId +
             '/status';
     }
