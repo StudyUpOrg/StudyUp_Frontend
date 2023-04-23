@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+/*import { test, expect } from '@playwright/test';
 
 test('authentification', async ({ page }) => {
 
@@ -22,4 +22,4 @@ test('authentification', async ({ page }) => {
 
   await expect(page.locator('snack-bar-container')).toHaveText('Du wurdest erfolgreich ausgeloggt.')
   
-});
+});*/

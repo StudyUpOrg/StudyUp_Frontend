@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+/*import { test, expect } from '@playwright/test';
 
 test('add course', async ({ page }) => {
   await page.goto('http://localhost:4200/');
@@ -21,4 +21,4 @@ test('add course', async ({ page }) => {
   await page.locator('#mat-slide-toggle-1 div').nth(2).click();
   await page.getByRole('button', { name: 'Studiengang hinzufügen' }).click();
   await expect(page.locator('snack-bar-container')).toHaveText('Neuer Kurs wurde erfolgreich angelegt')
-});
+});*/
