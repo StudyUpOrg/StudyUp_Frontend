@@ -1,4 +1,4 @@
-/*import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test('add evaluationtemplate', async ({ page }) => {
   await page.goto('http://localhost:4200/');
@@ -16,4 +16,10 @@ test('add evaluationtemplate', async ({ page }) => {
   await page.getByRole('button', { name: 'Kriterium hinzufügen' }).click();
   await page.getByRole('button', { name: 'Evaluationsbogen erstellen' }).click();
   await expect(page.locator('snack-bar-container')).toHaveText('Evaluationsbogen wurde erfolgreich angelegt')
-});*/
+
+  await page.getByRole('link', { name: 'Evaluationsbögen' }).click();
+  await page.getByText('EvaluationsbogenEvaluationsbogen').click();
+  await page.getByText('Playwright Test').last().click();
+  //await page.getByRole('option').last().click();
+  await expect(page.getByText('label Playwright Kriterium')).toHaveText('label Playwright Kriterium')
+});
