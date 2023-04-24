@@ -72,8 +72,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.accountService
             .updateAccountProfilePicture(formDataPicture)
             .subscribe(
-                (response: any) => {
-                    this.notificationService.displayNotification(response.msg);
+                () => {
                     this.getProfilePicture();
                 },
                 (error: any) => {

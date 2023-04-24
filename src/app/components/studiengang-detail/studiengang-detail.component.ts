@@ -259,7 +259,12 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
         this.studiengang.id = studiengangId;
         this.studiengangService.updateStudiengang(this.studiengang).subscribe(
             (response: any) => {
-                this.addEvaluationTemplates(this.studiengang.id);
+                if (
+                    this.selectedEvaluationTemplates.length >
+                    this.oldSelectedEvaluationTemplates.length
+                ) {
+                    this.addEvaluationTemplates(this.studiengang.id);
+                }
                 this.notificationService.displayNotification(response.msg);
             },
             (error: any) => {
@@ -272,10 +277,15 @@ export class StudiengangDetailComponent implements OnInit, OnDestroy {
         this.studiengang = this.formGroup.value;
         this.studiengangService.createStudiengang(this.studiengang).subscribe(
             (response: any) => {
+                if (
+                    this.selectedEvaluationTemplates.length >
+                    this.oldSelectedEvaluationTemplates.length
+                ) {
+                    this.addEvaluationTemplates(response.data.courseId);
+                }
+                this.notificationService.displayNotification(response.msg);
                 this.formGroup.reset();
                 this.selectedEvaluationTemplates = [];
-                this.addEvaluationTemplates(response.data.courseId);
-                this.notificationService.displayNotification(response.msg);
             },
             (error: any) => {
                 this.notificationService.displayNotification(error.error.msg);
