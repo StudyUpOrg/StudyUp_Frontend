@@ -151,16 +151,7 @@ export class BewerbungDetailComponent implements OnInit, OnDestroy {
                 }
             );
         } else {
-            this.bewerbungService
-                .sendBewerbung(this.bewerbungId)
-                .subscribe(() =>
-                    this.bewerbungService
-                        .sendBewerbung(this.bewerbungId)
-                        .subscribe(() => {
-                            this.buttonActivated = false;
-                            this.openLinkDialog();
-                        })
-                );
+            this.sendBewerbungEnd();
         }
     }
 
