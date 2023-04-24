@@ -20,5 +20,5 @@ test('add course', async ({ page }) => {
   await page.getByLabel('Beschreibung *').fill('Dies ist ein Studiengang für Playwright Tests!');
   await page.locator('#mat-slide-toggle-1 div').nth(2).click();
   await page.getByRole('button', { name: 'Studiengang hinzufügen' }).click();
-  await expect(page.locator('snack-bar-container').last()).toHaveText('Neue Templates wurden dem Kurs zugewiesen')
+  await expect(page.locator('snack-bar-container').last()).toHaveText('Der Studiengang wurde erfolgreich aktualisiert')
 });
