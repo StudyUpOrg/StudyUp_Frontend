@@ -20,8 +20,11 @@ test('evaluateApplication', async ({ page }) => {
   
   
   await page.getByText('Neue Evaluation').click();
+  await page.waitForTimeout(2000);
   await page.getByText('EvaluationsbogenEvaluationsbogen').click();
+  await page.waitForTimeout(2000);
   await page.locator('#mat-option-9').getByText('Playwright Test').click();
+  await page.waitForTimeout(2000);
   await page.locator('#mat-input-10').click();
   await page.locator('#mat-input-10').click();
   await page.locator('#mat-input-10').fill('1');

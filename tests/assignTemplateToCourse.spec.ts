@@ -14,7 +14,7 @@ test('assignTemplateToCourse', async ({ page }) => {
   await page.waitForTimeout(1000);
   await page.getByText('Playwright Test').last().click();
   await page.waitForTimeout(1000);
-  await page.locator('.cdk-overlay-backdrop').click();
+  await page.press('body', 'Escape');
   await page.waitForTimeout(750);
   await page.getByRole('button', { name: 'Änderungen speichern' }).click();
   await page.getByText('Playwright Test').last().click();

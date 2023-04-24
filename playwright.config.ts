@@ -19,8 +19,8 @@ export default defineConfig({
   /* Run tests in files in parallel */
   //fullyParallel: true,
   /* Retry on CI only */
-  retries: 4,
-  timeout: 50000,
+  retries: 2,
+  timeout: 35000,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

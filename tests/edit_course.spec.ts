@@ -10,6 +10,7 @@ test('edit course', async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
   await page.locator('.mat-cell > a').first().click();
   await page.waitForTimeout(2000);
+  
   await page.locator('#mat-slide-toggle-1 div').first().click();
   await page.waitForTimeout(1500);
   await page.getByRole('button', { name: 'Änderungen speichern' }).click();
