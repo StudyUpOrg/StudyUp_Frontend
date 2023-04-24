@@ -18,6 +18,6 @@ test('assignTemplateToCourse', async ({ page }) => {
   await page.waitForTimeout(750);
   await page.getByRole('button', { name: 'Änderungen speichern' }).click();
   await page.getByText('Playwright Test').last().click();
-  await expect(page.locator('snack-bar-container').last()).toHaveText('Neue Templates wurden dem Kurs zugewiesen')
+  await expect(page.locator('snack-bar-container').last()).toHaveText('Der Studiengang wurde erfolgreich aktualisiert')
 
 });

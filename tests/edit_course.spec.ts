@@ -14,9 +14,9 @@ test('edit course', async ({ page }) => {
   await page.locator('#mat-slide-toggle-1 div').first().click();
   await page.waitForTimeout(1500);
   await page.getByRole('button', { name: 'Änderungen speichern' }).click();
-  await expect(page.locator('snack-bar-container').last()).toHaveText('Neue Templates wurden dem Kurs zugewiesen')
+  await expect(page.locator('snack-bar-container').last()).toHaveText('Der Studiengang wurde erfolgreich aktualisiert')
   await page.waitForTimeout(6000);
   await page.locator('#mat-slide-toggle-1 div').first().click();
   await page.getByRole('button', { name: 'Änderungen speichern' }).click();
-  await expect(page.locator('snack-bar-container').last()).toHaveText('Neue Templates wurden dem Kurs zugewiesen')
+  await expect(page.locator('snack-bar-container').last()).toHaveText('Der Studiengang wurde erfolgreich aktualisiert')
 });
